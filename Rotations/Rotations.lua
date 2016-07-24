@@ -1,111 +1,149 @@
-local f = function(self, event, unit, name, rank, target)
+local furyWarrior = { {
+	conditions = { {
+		type = "or",
+		children = { {
+			type = "buff",
+			name = "Enrage",
+			active = false
+		}, {
+			type = "power",
+			operator = ">=",
+			value = 100
+		} }
+	} },
+	ability = "Rampage"
+}, {
+	conditions = { {
+		type = "buff",
+		name = "Enrage",
+		active = false
+	} },
+	ability = "Bloodthirst"
+}, {
+	conditions = { {
+		type = "buff",
+		name = "Wrecking Ball",
+		active = true
+	} },
+	ability = "Whirlwind"
+}, {
+	conditions = { {
+		type = "or",
+		children = { {
+			type = "talent",
+			name = "Inner Rage",
+			active = true
+		}, {
+			type = "buff",
+			name = "Enrage",
+			active = true
+		} }
+	} },
+	ability = "Raging Blow"
+}, {
+	ability = "Bloodthirst"
+}, {
+	ability = "Furious Slash"
+} }
 
-  local br = IsUsableSpell("Berserker Rage")
-  local bt = IsUsableSpell("Bloodthirst")
-  local rb = IsUsableSpell("Raging Blow")
-  local ws = IsUsableSpell("Wild Strike")
-  local ex = IsUsableSpell("Execute")
-  local rv = IsUsableSpell("Ravage")
-  local sb = IsUsableSpell("Storm Bolt")
-  local sbr = IsUsableSpell("Siegebreaker")
-  local dr = IsUsableSpell("Dragon Roar")
+local evaluateCondition
+evaluateCondition = function(condition)
+	
+	local met = false
 
-  local brCooldown = GetSpellCooldown("Berserker Rage")
-  local sbCooldown = GetSpellCooldown("Storm Bolt")
-  local sbrCooldown = GetSpellCooldown("Siegebreaker")
-  local btStart, btDuration = GetSpellCooldown("Bloodthirst")
-  
-  if not btStart then
-    self.text:SetText("")
-    return
-  end
-  
-  local btReady = btStart + btDuration - GetTime() <= 1
-  local recklessness = GetSpellCooldown("Battle Cry")
-    
-  local enrage = UnitBuff("player", "Enrage") == "Enrage"
-  local bloodsurge = UnitBuff("player", "Bloodsurge") == "Bloodsurge"
-  local suddenDeath = UnitBuff("player", "Sudden Death") == "Sudden Death"
-  local _, _, _, ragingBlowCount = UnitBuff("player", "Raging Blow!")
+	if condition.type == "and" then
+	
+		for i, child in ipairs(condition.children) do
+			met = met and evaluateCondition(child)
+		end
 
-  local hasUnquenchableThirst = GetSpellInfo("Unquenchable Thirst") == "Unquenchable Thirst"
-  local hasFuriousStrikes = GetSpellInfo("Furious Strikes") == "Furious Strikes"
+	elseif condition.type == "buff" then
+	
+		local buffed = UnitBuff("player", condition.name) == condition.name
+		if condition.active then
+			met = buffed
+		else
+			met = not buffed
+		end
 
-  local power = UnitPower("player")
-  
-  local targetHealth = UnitHealth("target")
-  local targetHealthMax = UnitHealthMax("target")
+	elseif condition.type == "or" then
+	
+		for i, child in ipairs(condition.children) do
+			met = met or evaluateCondition(child)
+		end
 
-  local spell = ""
-  
-  if targetHealth > 0 and targetHealth / targetHealthMax >= 0.2 then
+	elseif condition.type == "power" then
+	
+		local power = UnitPower("player")
+	
+		if condition.operator == "<" then
+			met = power < condition.value
+		elseif condition.operator == "<=" then
+			met = power <= condition.value
+		elseif condition.operator == "==" then
+			met = power == condition.value
+		elseif condition.operator == ">=" then
+			met = power >= condition.value
+		elseif condition.operator == ">" then
+			met = power > condition.value
+		else
+			print("Unsupported operator: " .. condition.operator)
+		end
+	
+	end
+	
+	return met
+	
+end
 
-    if brCooldown == 0 and not enrage and not btReady then
-      spell = "Berserker Rage"
-    elseif suddenDeath then
-      spell = "Execute"
-    elseif power > 90 then
-      spell = "F2"
-    elseif ragingBlowCount == 2 then
-      spell = "2"
-    elseif btReady and not enrage and (hasUnquenchableThirst or power < 80) then
-      spell = "4"
-    elseif bloodsurge then
-      spell = "F2 (Bloodsurge)"
-    elseif rv then
-      spell = "Ravager"
-    elseif sbr and sbrCooldown == 0 then
-      spell = "Siegebreaker"
-    elseif sb and sbCooldown == 0 then
-      spell = "1"
-    --elseif dr then
-    --  spell = "Dragon Roar"
-    elseif rb then
-      spell = "2"
-    elseif enrage and power >= 45 then
-      spell = "F2"
-    elseif btReady then
-      spell = "4"
-    elseif hasFuriousStrikes and power >= 20 then
-      spell = "F2"
-    else
-      spell = "(4)"
-    end
-  
-  elseif targetHealth > 0 then
-  
-    if brCooldown == 0 and not enrage then
-      spell = "Berserker Rage"
-    elseif suddenDeath or power > 90 then
-      spell = "Execute"
-    elseif btReady and not enrage and (hasUnquenchableThirst or power < 90) then
-      spell = "4"
-    elseif rv then
-      spell = "Ravager"
-    elseif sb and sbCooldown == 0 then
-      spell = "1"
-    --elseif dr then
-    --  spell = "Dragon Roar"
-    elseif enrage and power >= 30 then
-      spell = "Execute"
-    elseif bloodsurge then
-      spell = "F2 (Bloodsurge)"
-    elseif rb then
-      spell = "2"
-    elseif btReady then
-      spell = "4"
-    end
-  
-  end
-  
-  if recklessness <= 0 then
-    self.text:SetFontObject("GameFontRedLarge");
-  else
-    self.text:SetFontObject("GameFontGreenLarge");
-  end
+local evaluateRule = function(rule)
 
-  self.text:SetText(spell)
+	local usable = IsUsableSpell(rule.ability)
+	if not usable then
+		return
+	end
+	
+	local start, duration = GetSpellCooldown(rule.ability)
+	local ready = start + duration - GetTime() <= 1.5
+	if not ready then
+		return
+	end
+	
+	if rule.conditions then
+		for i, condition in ipairs(rule.conditions) do
+			if not evaluateCondition(condition) then
+				return
+			end
+		end
+	end
+	
+	return rule.ability
+	
+end
 
+local next = function()
+
+	local targetHealth = UnitHealth("target")
+	if targetHealth == nil or targetHealth == 0 then
+		return
+	end
+	
+	local rotation = furyWarrior;
+	
+	for i, rule in ipairs(rotation) do
+		local ability = evaluateRule(rule)
+		if ability ~= nil then
+			return ability
+		end
+	end
+	
+	return ""
+	
+end
+
+local f = function (self, event, unit, name, rank, target)
+	self.text:SetFontObject("GameFontGreenLarge");
+	self.text:SetText(next())
 end
 
 local frame = CreateFrame("Frame")
