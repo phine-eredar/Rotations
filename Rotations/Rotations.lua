@@ -1,4 +1,91 @@
-local furyWarrior = { {
+local talents = {
+	["Inner Rage"] = {
+		tier = 6,
+		column = 3
+	},
+	Massacre = {
+		tier = 5,
+		column = 1
+	}
+}
+
+local furyWarriorSingle = { {
+	conditions = { {
+		type = "or",
+		children = { {
+			type = "buff",
+			name = "Enrage",
+			active = false
+		}, {
+			type = "power",
+			operator = ">=",
+			value = 100
+		} }
+	} },
+	ability = "Rampage"
+}, {
+	conditions = { {
+		type = "buff",
+		name = "Enrage",
+		active = false
+	} },
+	ability = "Bloodthirst"
+}, {
+	conditions = { {
+		type = "talent",
+		name = "Massacre",
+		active = true
+	} },
+	ability = "Execute"
+}, {
+	conditions = { {
+		type = "buff",
+		name = "Wrecking Ball",
+		active = true
+	} },
+	ability = "Whirlwind"
+}, {
+	conditions = { {
+		type = "and",
+		children = { {
+			type = "talent",
+			name = "Massacre",
+			active = false
+		}, {
+			type = "buff",
+			name = "Enrage",
+			active = true
+		} }
+	} },
+	ability = "Execute"
+}, {
+	conditions = { {
+		type = "or",
+		children = { {
+			type = "talent",
+			name = "Inner Rage",
+			active = true
+		}, {
+			type = "buff",
+			name = "Enrage",
+			active = true
+		} }
+	} },
+	ability = "Raging Blow"
+}, {
+	ability = "Bloodthirst"
+}, {
+	ability = "Furious Slash"
+} }
+
+local furyWarriorMulti = { {
+	conditions = { {
+		type = "buff",
+		name = "Meat Cleaver",
+		active = false
+	} },
+	ability = "Whirlwind"
+}, {
 	conditions = { {
 		type = "or",
 		children = { {
@@ -27,23 +114,11 @@ local furyWarrior = { {
 	} },
 	ability = "Whirlwind"
 }, {
-	conditions = { {
-		type = "or",
-		children = { {
-			type = "talent",
-			name = "Inner Rage",
-			active = true
-		}, {
-			type = "buff",
-			name = "Enrage",
-			active = true
-		} }
-	} },
 	ability = "Raging Blow"
 }, {
 	ability = "Bloodthirst"
 }, {
-	ability = "Furious Slash"
+	ability = "Whirlwind"
 } }
 
 local evaluateCondition
@@ -60,6 +135,7 @@ evaluateCondition = function(condition)
 	elseif condition.type == "buff" then
 	
 		local buffed = UnitBuff("player", condition.name) == condition.name
+		
 		if condition.active then
 			met = buffed
 		else
@@ -86,9 +162,22 @@ evaluateCondition = function(condition)
 			met = power >= condition.value
 		elseif condition.operator == ">" then
 			met = power > condition.value
-		else
-			print("Unsupported operator: " .. condition.operator)
+		else print("Unsupported operator: " .. condition.operator)
 		end
+		
+	elseif condition.type == "talent" then
+		
+		local talent = talents[condition.name]
+		local _, _, _, selected = GetTalentInfo(talent.tier, talent.column, 1)
+		
+		if (condition.active) then
+			met = selected
+		else
+			met = not selected
+		end
+		
+		
+	else print("Unsupported condition type: " .. condition.type)
 	
 	end
 	
@@ -121,39 +210,50 @@ local evaluateRule = function(rule)
 	
 end
 
-local next = function()
-
-	local targetHealth = UnitHealth("target")
-	if targetHealth == nil or targetHealth == 0 then
-		return
-	end
-	
-	local rotation = furyWarrior;
-	
+local next = function(rotation)
 	for i, rule in ipairs(rotation) do
 		local ability = evaluateRule(rule)
 		if ability ~= nil then
 			return ability
 		end
 	end
-	
 	return ""
-	
 end
 
-local f = function (self, event, unit, name, rank, target)
+local nextMulti = function()
+
+end
+
+local updateSingle = function (self, event, unit, name, rank, target)
 	self.text:SetFontObject("GameFontGreenLarge");
-	self.text:SetText(next())
+	self.text:SetText(next(furyWarriorSingle))
 end
 
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("COMBAT_TEXT_UPDATE")
-frame:RegisterEvent("SPELL_UPDATE_USABLE")
-frame:SetScript("OnEvent", f)
-frame:ClearAllPoints()
-frame:SetHeight(300)
-frame:SetWidth(300)
-frame.text = frame:CreateFontString(nil, "BACKGROUND", "PVPInfoTextFont")
-frame.text:SetTextHeight(32)
-frame.text:SetAllPoints()
-frame:SetPoint("CENTER", -100, -100)
+local updateMulti = function (self, event, unit, name, rank, target)
+	self.text:SetFontObject("GameFontGreenLarge");
+	self.text:SetText(next(furyWarriorMulti))
+end
+
+local single = CreateFrame("Frame")
+single:RegisterEvent("COMBAT_TEXT_UPDATE")
+single:RegisterEvent("SPELL_UPDATE_USABLE")
+single:SetScript("OnEvent", updateSingle)
+single:ClearAllPoints()
+single:SetHeight(300)
+single:SetWidth(300)
+single.text = single:CreateFontString(nil, "BACKGROUND", "PVPInfoTextFont")
+single.text:SetTextHeight(32)
+single.text:SetAllPoints()
+single:SetPoint("CENTER", -100, -100)
+
+local multi = CreateFrame("Frame")
+multi:RegisterEvent("COMBAT_TEXT_UPDATE")
+multi:RegisterEvent("SPELL_UPDATE_USABLE")
+multi:SetScript("OnEvent", updateMulti)
+multi:ClearAllPoints()
+multi:SetHeight(300)
+multi:SetWidth(300)
+multi.text = multi:CreateFontString(nil, "BACKGROUND", "PVPInfoTextFont")
+multi.text:SetTextHeight(32)
+multi.text:SetAllPoints()
+multi:SetPoint("CENTER", 100, -100)
