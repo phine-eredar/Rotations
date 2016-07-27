@@ -130,6 +130,8 @@ function Rotations(wow)
 
     if condition.type == "and" then
 
+      met = true
+
       for i, child in ipairs(condition.children) do
         met = met and evaluateCondition(child)
       end
@@ -177,7 +179,6 @@ function Rotations(wow)
       else
         met = not selected
       end
-
 
     else print("Unsupported condition type: " .. condition.type)
 
