@@ -229,9 +229,11 @@ end
 
 local wow = {
   GetSpellCooldown = GetSpellCooldown,
+  GetTalentInfo = GetTalentInfo,
   GetTime = GetTime,
   IsUsableSpell = IsUsableSpell,
-  UnitBuff = UnitBuff
+  UnitBuff = UnitBuff,
+  UnitPower = UnitPower
 }
 local rotations = Rotations(wow)
 
