@@ -1,6 +1,7 @@
 local wow = {
   GetActiveSpecGroup = GetActiveSpecGroup,
   GetSpecializationInfo = GetSpecializationInfo,
+  GetSpellCharges = GetSpellCharges,
   GetSpellCooldown = GetSpellCooldown,
   GetTalentInfo = GetTalentInfo,
   GetTime = GetTime,
@@ -26,8 +27,15 @@ local updateMulti = function(self, event, unit, name, rank, target)
 end
 
 local single = CreateFrame("Frame")
+single:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 single:RegisterEvent("COMBAT_TEXT_UPDATE")
+single:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 single:RegisterEvent("SPELL_UPDATE_USABLE")
+single:RegisterEvent("UNIT_COMBAT")
+single:RegisterEvent("UNIT_SPELLCAST_SENT")
+single:RegisterEvent("UNIT_SPELLCAST_START")
+single:RegisterEvent("UNIT_SPELLCAST_STOP")
+single:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 single:SetScript("OnEvent", updateSingle)
 single:ClearAllPoints()
 single:SetHeight(300)
@@ -38,8 +46,15 @@ single.text:SetAllPoints()
 single:SetPoint("CENTER", -100, -100)
 
 local multi = CreateFrame("Frame")
+multi:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 multi:RegisterEvent("COMBAT_TEXT_UPDATE")
+multi:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 multi:RegisterEvent("SPELL_UPDATE_USABLE")
+multi:RegisterEvent("UNIT_COMBAT")
+multi:RegisterEvent("UNIT_SPELLCAST_SENT")
+multi:RegisterEvent("UNIT_SPELLCAST_START")
+multi:RegisterEvent("UNIT_SPELLCAST_STOP")
+multi:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 multi:SetScript("OnEvent", updateMulti)
 multi:ClearAllPoints()
 multi:SetHeight(300)

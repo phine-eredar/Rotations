@@ -8,6 +8,9 @@ local wow = function(data)
   data.talentInfo = data.talentInfo or {}
   data.usableSpells = data.usableSpells or {}
   return {
+    GetSpellCharges = function()
+      return
+    end,
     GetSpellCooldown = function(name)
       return unpack(data.spellCooldowns[name])
     end,

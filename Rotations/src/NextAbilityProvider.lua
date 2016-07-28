@@ -1,5 +1,26 @@
 function PhineRotations:NextAbilityProvider(wow)
 
+local evaluateOperation = function(value, condition)
+
+  local met = false
+
+      if condition.operator == "<" then
+        met = value < condition.value
+      elseif condition.operator == "<=" then
+        met = value <= condition.value
+      elseif condition.operator == "==" then
+        met = value == condition.value
+      elseif condition.operator == ">=" then
+        met = value >= condition.value
+      elseif condition.operator == ">" then
+        met = value > condition.value
+      else print("Unsupported operator: " .. condition.operator)
+      end
+      
+      return met
+
+end
+
   local evaluateCondition
   evaluateCondition = function(condition, talents)
 
@@ -22,6 +43,12 @@ function PhineRotations:NextAbilityProvider(wow)
       else
         met = not buffed
       end
+      
+    elseif condition.type == "charges" then
+      
+      local charges = wow.GetSpellCharges(condition.name)
+      
+      met = evaluateOperation(charges, condition)
 
     elseif condition.type == "or" then
 
@@ -32,19 +59,8 @@ function PhineRotations:NextAbilityProvider(wow)
     elseif condition.type == "power" then
 
       local power = wow.UnitPower("player")
-
-      if condition.operator == "<" then
-        met = power < condition.value
-      elseif condition.operator == "<=" then
-        met = power <= condition.value
-      elseif condition.operator == "==" then
-        met = power == condition.value
-      elseif condition.operator == ">=" then
-        met = power >= condition.value
-      elseif condition.operator == ">" then
-        met = power > condition.value
-      else print("Unsupported operator: " .. condition.operator)
-      end
+      
+      met = evaluateOperation(power, condition)
 
     elseif condition.type == "talent" then
 
@@ -71,9 +87,14 @@ function PhineRotations:NextAbilityProvider(wow)
     if not usable then
       return
     end
+    
+    local charges = wow.GetSpellCharges(rule.ability)
+    if charges == 0 then
+      return
+    end
 
     local start, duration = wow.GetSpellCooldown(rule.ability)
-    local ready = start + duration - wow.GetTime() <= 1.5
+    local ready = start + duration - wow.GetTime() <= 1
     if not ready then
       return
     end
