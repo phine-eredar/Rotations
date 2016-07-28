@@ -1,4 +1,6 @@
-require("src/Rotations")
+require("src/package")
+require("src/rotations/warrior/FuryWarrior")
+require("src/NextAbilityProvider")
 
 local wow = function(data)
   data.buffs = data.buffs or {}
@@ -31,11 +33,16 @@ describe("RotationsTest", function()
 
     describe("Fury Warrior", function()
 
+        local rotation = PhineRotations:FuryWarrior();
+        local single = rotation.single()
+        local multi = rotation.multi()
+        local talents = rotation.talents()
+
         describe("Single-Target Rotation", function()
 
             describe("Furious Slash if nothing else is available", function()
               it("Should return Furious Slash", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     ["Furious Slash"] = true
@@ -43,13 +50,13 @@ describe("RotationsTest", function()
                   spellCooldowns = {
                     ["Furious Slash"] = {0, 0}
                   }
-                })).next(furyWarriorSingle), "Furious Slash")
+                })).next(single, talents), "Furious Slash")
               end)
             end)
 
             describe("Bloodthirst, even if Enraged", function()
               it("Should return Bloodthirst", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     ["Furious Slash"] = true,
@@ -62,13 +69,13 @@ describe("RotationsTest", function()
                   buffs = {
                     Enrage = "Enrage"
                   }
-                })).next(furyWarriorSingle), "Bloodthirst")
+                })).next(single, talents), "Bloodthirst")
               end)
             end)
 
             describe("Raging Blow if Inner Rage is talented", function()
               it("Should return Raging Blow", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     ["Furious Slash"] = true,
@@ -88,13 +95,13 @@ describe("RotationsTest", function()
                       [3] = { nil, nil, nil, true }
                     }
                   }
-                })).next(furyWarriorSingle), "Raging Blow")
+                })).next(single, talents), "Raging Blow")
               end)
             end)
 
             describe("Raging Blow without Inner Rage if Enraged", function()
               it("Should return Raging Blow", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     ["Furious Slash"] = true,
@@ -114,13 +121,13 @@ describe("RotationsTest", function()
                       [3] = { nil, nil, nil, false }
                     }
                   }
-                })).next(furyWarriorSingle), "Raging Blow")
+                })).next(single, talents), "Raging Blow")
               end)
             end)
 
             describe("Whirlwind on Wrecking Ball procs", function()
               it("Should return Whirlwind", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     ["Furious Slash"] = true,
@@ -143,13 +150,13 @@ describe("RotationsTest", function()
                       [3] = { nil, nil, nil, false }
                     }
                   }
-                })).next(furyWarriorSingle), "Whirlwind")
+                })).next(single, talents), "Whirlwind")
               end)
             end)
 
             describe("Bloodthirst if Enrage is absent", function()
               it("Should return Bloodthirst", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     ["Furious Slash"] = true,
@@ -171,13 +178,13 @@ describe("RotationsTest", function()
                       [3] = { nil, nil, nil, false }
                     }
                   }
-                })).next(furyWarriorSingle), "Bloodthirst")
+                })).next(single, talents), "Bloodthirst")
               end)
             end)
 
             describe("Rampage if Enrage is absent", function()
               it("Should return Rampage", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     ["Furious Slash"] = true,
@@ -201,13 +208,13 @@ describe("RotationsTest", function()
                       [3] = { nil, nil, nil, false }
                     }
                   }
-                })).next(furyWarriorSingle), "Rampage")
+                })).next(single, talents), "Rampage")
               end)
             end)
 
             describe("Rampage if at 100 Rage", function()
               it("Should return Rampage", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     ["Furious Slash"] = true,
@@ -235,7 +242,7 @@ describe("RotationsTest", function()
                     Enrage = "Enrage"
                   },
                   power = 100
-                })).next(furyWarriorSingle), "Rampage")
+                })).next(single, talents), "Rampage")
               end)
             end)
 
@@ -247,7 +254,7 @@ describe("RotationsTest", function()
 
                 describe("Furious Slash if nothing else is available", function()
                   it("Should return Furious Slash", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true
@@ -260,13 +267,13 @@ describe("RotationsTest", function()
                           [1] = {nil, nil, nil, false}
                         }
                       }
-                    })).next(furyWarriorSingle), "Furious Slash")
+                    })).next(single, talents), "Furious Slash")
                   end)
                 end)
 
                 describe("Bloodthirst, even if Enraged", function()
                   it("Should return Bloodthirst", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -284,13 +291,13 @@ describe("RotationsTest", function()
                           [1] = {nil, nil, nil, false}
                         }
                       }
-                    })).next(furyWarriorSingle), "Bloodthirst")
+                    })).next(single, talents), "Bloodthirst")
                   end)
                 end)
 
                 describe("Raging Blow if Inner Rage is talented", function()
                   it("Should return Raging Blow", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -315,13 +322,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Raging Blow")
+                    })).next(single, talents), "Raging Blow")
                   end)
                 end)
 
                 describe("Raging Blow without Inner Rage if Enraged", function()
                   it("Should return Raging Blow", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -346,13 +353,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Raging Blow")
+                    })).next(single, talents), "Raging Blow")
                   end)
                 end)
 
                 describe("Execute if Enraged", function()
                   it("Should return Execute", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -379,13 +386,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Execute")
+                    })).next(single, talents), "Execute")
                   end)
                 end)
 
                 describe("Whirlwind on Wrecking Ball procs", function()
                   it("Should return Whirlwind", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -415,13 +422,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Whirlwind")
+                    })).next(single, talents), "Whirlwind")
                   end)
                 end)
 
                 describe("Bloodthirst if Enrage is absent", function()
                   it("Should return Bloodthirst", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -450,13 +457,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Bloodthirst")
+                    })).next(single, talents), "Bloodthirst")
                   end)
                 end)
 
                 describe("Rampage if Enrage is absent", function()
                   it("Should return Rampage", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -487,13 +494,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Rampage")
+                    })).next(single, talents), "Rampage")
                   end)
                 end)
 
                 describe("Rampage if at 100 Rage", function()
                   it("Should return Rampage", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -528,7 +535,7 @@ describe("RotationsTest", function()
                         Enrage = "Enrage"
                       },
                       power = 100
-                    })).next(furyWarriorSingle), "Rampage")
+                    })).next(single, talents), "Rampage")
                   end)
                 end)
 
@@ -538,7 +545,7 @@ describe("RotationsTest", function()
 
                 describe("Furious Slash if nothing else is available", function()
                   it("Should return Furious Slash", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true
@@ -551,13 +558,13 @@ describe("RotationsTest", function()
                           [1] = {nil, nil, nil, true}
                         }
                       }
-                    })).next(furyWarriorSingle), "Furious Slash")
+                    })).next(single, talents), "Furious Slash")
                   end)
                 end)
 
                 describe("Bloodthirst, even if Enraged", function()
                   it("Should return Bloodthirst", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -575,13 +582,13 @@ describe("RotationsTest", function()
                           [1] = {nil, nil, nil, true}
                         }
                       }
-                    })).next(furyWarriorSingle), "Bloodthirst")
+                    })).next(single, talents), "Bloodthirst")
                   end)
                 end)
 
                 describe("Raging Blow if Inner Rage is talented", function()
                   it("Should return Raging Blow", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -606,13 +613,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Raging Blow")
+                    })).next(single, talents), "Raging Blow")
                   end)
                 end)
 
                 describe("Raging Blow without Inner Rage if Enraged", function()
                   it("Should return Raging Blow", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -637,13 +644,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Raging Blow")
+                    })).next(single, talents), "Raging Blow")
                   end)
                 end)
 
                 describe("Whirlwind on Wrecking Ball procs", function()
                   it("Should return Whirlwind", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -671,13 +678,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Whirlwind")
+                    })).next(single, talents), "Whirlwind")
                   end)
                 end)
 
                 describe("Execute", function()
                   it("Should return Execute", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -707,13 +714,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Execute")
+                    })).next(single, talents), "Execute")
                   end)
                 end)
 
                 describe("Bloodthirst if Enrage is absent", function()
                   it("Should return Bloodthirst", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -742,13 +749,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Bloodthirst")
+                    })).next(single, talents), "Bloodthirst")
                   end)
                 end)
 
                 describe("Rampage if Enrage is absent", function()
                   it("Should return Rampage", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -779,13 +786,13 @@ describe("RotationsTest", function()
                           }
                         }
                       }
-                    })).next(furyWarriorSingle), "Rampage")
+                    })).next(single, talents), "Rampage")
                   end)
                 end)
 
                 describe("Rampage if at 100 Rage", function()
                   it("Should return Rampage", function()
-                    assert_equal(Rotations(wow({
+                    assert_equal(PhineRotations:NextAbilityProvider(wow({
                       time = 0,
                       usableSpells = {
                         ["Furious Slash"] = true,
@@ -820,7 +827,7 @@ describe("RotationsTest", function()
                         Enrage = "Enrage"
                       },
                       power = 100
-                    })).next(furyWarriorSingle), "Rampage")
+                    })).next(single, talents), "Rampage")
                   end)
                 end)
 
@@ -832,7 +839,7 @@ describe("RotationsTest", function()
 
             describe("Whirlwind with Meat Cleaver", function()
               it("Should return Whirlwind", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     Whirlwind = true
@@ -843,13 +850,13 @@ describe("RotationsTest", function()
                   buffs = {
                     ["Meat Cleaver"] = "Meat Cleaver"
                   }
-                })).next(furyWarriorMulti), "Whirlwind")
+                })).next(multi, talents), "Whirlwind")
               end)
             end)
 
             describe("Bloodthirst if Enrage is active", function()
               it("Should return Bloodthirst", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     Whirlwind = true,
@@ -863,13 +870,13 @@ describe("RotationsTest", function()
                     Enrage = "Enrage",
                     ["Meat Cleaver"] = "Meat Cleaver"
                   }
-                })).next(furyWarriorMulti), "Bloodthirst")
+                })).next(multi, talents), "Bloodthirst")
               end)
             end)
 
             describe("Raging Blow (below 3 targets)", function()
               it("Should return Raging Blow", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     Whirlwind = true,
@@ -885,13 +892,13 @@ describe("RotationsTest", function()
                     Enrage = "Enrage",
                     ["Meat Cleaver"] = "Meat Cleaver"
                   }
-                })).next(furyWarriorMulti), "Raging Blow")
+                })).next(multi, talents), "Raging Blow")
               end)
             end)
 
             describe("Whirlwind on Wrecking Ball procs", function()
               it("Should return Whirlwind", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     Whirlwind = true,
@@ -910,13 +917,13 @@ describe("RotationsTest", function()
                     ["Meat Cleaver"] = "Meat Cleaver",
                     ["Wrecking Ball"] = "Wrecking Ball"
                   }
-                })).next(furyWarriorMulti), "Whirlwind")
+                })).next(multi, talents), "Whirlwind")
               end)
             end)
 
             describe("Bloodthirst if Enrage is absent", function()
               it("Should return Bloodthirst", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     Whirlwind = true,
@@ -934,13 +941,13 @@ describe("RotationsTest", function()
                     ["Meat Cleaver"] = "Meat Cleaver",
                     ["Wrecking Ball"] = "Wrecking Ball"
                   }
-                })).next(furyWarriorMulti), "Bloodthirst")
+                })).next(multi, talents), "Bloodthirst")
               end)
             end)
 
             describe("Rampage if Enrage is absent", function()
               it("Should return Rampage", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     Whirlwind = true,
@@ -960,13 +967,13 @@ describe("RotationsTest", function()
                     ["Meat Cleaver"] = "Meat Cleaver",
                     ["Wrecking Ball"] = "Wrecking Ball"
                   }
-                })).next(furyWarriorMulti), "Rampage")
+                })).next(multi, talents), "Rampage")
               end)
             end)
 
             describe("Rampage if at 100 Rage", function()
               it("Should return Rampage", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     Whirlwind = true,
@@ -988,13 +995,13 @@ describe("RotationsTest", function()
                     Enrage = "Enrage"
                   },
                   power = 100
-                })).next(furyWarriorMulti), "Rampage")
+                })).next(multi, talents), "Rampage")
               end)
             end)
 
             describe("Whirlwind to activate Meat Cleaver", function()
               it("Should return Whirlwind", function()
-                assert_equal(Rotations(wow({
+                assert_equal(PhineRotations:NextAbilityProvider(wow({
                   time = 0,
                   usableSpells = {
                     Whirlwind = true,
@@ -1014,7 +1021,7 @@ describe("RotationsTest", function()
                     ["Wrecking Ball"] = "Wrecking Ball"
                   },
                   power = 100
-                })).next(furyWarriorMulti), "Whirlwind")
+                })).next(multi, talents), "Whirlwind")
               end)
             end)
 

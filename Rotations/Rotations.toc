@@ -1,3 +1,7 @@
 ## Interface: 70000
 ## Title: Rotations
+src/package.lua
+src/rotations/warrior/FuryWarrior.lua
+src/rotations/RotationFactory.lua
+src/NextAbilityProvider.lua
 src/Rotations.lua
