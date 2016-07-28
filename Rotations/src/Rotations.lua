@@ -1,5 +1,5 @@
 local wow = {
-  GetActiveSpecGroup = GetActiveSpecGroup,
+  GetSpecialization = GetSpecialization,
   GetSpecializationInfo = GetSpecializationInfo,
   GetSpellCharges = GetSpellCharges,
   GetSpellCooldown = GetSpellCooldown,

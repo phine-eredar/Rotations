@@ -1,25 +1,26 @@
 function PhineRotations:RotationFactory(wow)
 
-  local classNames = {
-    [71] = 'FuryWarrior',
-    [262] = 'EnhancementShaman'
+  local specializationNames = {
+    [70] = 'RetributionPaladin',
+    [72] = 'FuryWarrior',
+    [263] = 'EnhancementShaman'
   }
 
   return {
-  
-    newRotation = function()
 
-      local activeSpecGroup = GetActiveSpecGroup()
-      local specId = GetSpecializationInfo(activeSpecGroup)
-      
-      local className = classNames[specId]
-      
-      if (not className) then return end
-      
-      return PhineRotations[className]()
+      newRotation = function()
 
-    end
-    
+        local specialization = GetSpecialization()
+        local specializationId = GetSpecializationInfo(specialization)
+
+        local specializationName = specializationNames[specializationId]
+
+        if (not specializationName) then return end
+
+        return PhineRotations[specializationName]()
+
+      end
+
   }
-  
+
 end

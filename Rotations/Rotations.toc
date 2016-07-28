@@ -1,6 +1,8 @@
 ## Interface: 70000
 ## Title: Rotations
 src/package.lua
+src/rotations/paladin/RetributionPaladin.lua
+src/rotations/shaman/EnhancementShaman.lua
 src/rotations/warrior/FuryWarrior.lua
 src/rotations/RotationFactory.lua
 src/NextAbilityProvider.lua

@@ -1,28 +1,28 @@
 function PhineRotations:NextAbilityProvider(wow)
 
-local evaluateOperation = function(value, condition)
+  local evaluateOperation = function(value, condition)
 
-  local met = false
+    local met = false
 
-      if condition.operator == "<" then
-        met = value < condition.value
-      elseif condition.operator == "<=" then
-        met = value <= condition.value
-      elseif condition.operator == "==" then
-        met = value == condition.value
-      elseif condition.operator == ">=" then
-        met = value >= condition.value
-      elseif condition.operator == ">" then
-        met = value > condition.value
-      else print("Unsupported operator: " .. condition.operator)
-      end
-      
-      return met
+    if condition.operator == "<" then
+      met = value < condition.value
+    elseif condition.operator == "<=" then
+      met = value <= condition.value
+    elseif condition.operator == "==" then
+      met = value == condition.value
+    elseif condition.operator == ">=" then
+      met = value >= condition.value
+    elseif condition.operator == ">" then
+      met = value > condition.value
+    else print("Unsupported operator: " .. condition.operator)
+    end
 
-end
+    return met
+
+  end
 
   local evaluateCondition
-  evaluateCondition = function(condition, talents)
+  evaluateCondition = function(condition, talents, ability)
 
     local met = false
 
@@ -31,7 +31,7 @@ end
       met = true
 
       for i, child in ipairs(condition.children) do
-        met = met and evaluateCondition(child, talents)
+        met = met and evaluateCondition(child, talents, ability)
       end
 
     elseif condition.type == "buff" then
@@ -43,23 +43,23 @@ end
       else
         met = not buffed
       end
-      
+
     elseif condition.type == "charges" then
-      
-      local charges = wow.GetSpellCharges(condition.name)
-      
+
+      local charges = wow.GetSpellCharges(ability)
+
       met = evaluateOperation(charges, condition)
 
     elseif condition.type == "or" then
 
       for i, child in ipairs(condition.children) do
-        met = met or evaluateCondition(child, talents)
+        met = met or evaluateCondition(child, talents, ability)
       end
 
     elseif condition.type == "power" then
 
-      local power = wow.UnitPower("player")
-      
+      local power = wow.UnitPower("player", condition.powerType or 0)
+
       met = evaluateOperation(power, condition)
 
     elseif condition.type == "talent" then
@@ -87,21 +87,21 @@ end
     if not usable then
       return
     end
-    
+
     local charges = wow.GetSpellCharges(rule.ability)
     if charges == 0 then
       return
     end
 
     local start, duration = wow.GetSpellCooldown(rule.ability)
-    local ready = start + duration - wow.GetTime() <= 1
+    local ready = start + duration - wow.GetTime() <= 1.5
     if not ready then
       return
     end
 
     if rule.conditions then
       for i, condition in ipairs(rule.conditions) do
-        if not evaluateCondition(condition, talents) then
+        if not evaluateCondition(condition, talents, rule.ability) then
           return
         end
       end
