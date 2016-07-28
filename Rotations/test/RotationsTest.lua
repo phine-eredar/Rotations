@@ -533,7 +533,7 @@ describe("RotationsTest", function()
                 end)
 
             end)
-            
+
             describe("With Massacre Talented", function()
 
                 describe("Furious Slash if nothing else is available", function()
@@ -824,6 +824,198 @@ describe("RotationsTest", function()
                   end)
                 end)
 
+            end)
+
+        end)
+
+        describe("Multiple-Target Rotation", function()
+
+            describe("Whirlwind with Meat Cleaver", function()
+              it("Should return Whirlwind", function()
+                assert_equal(Rotations(wow({
+                  time = 0,
+                  usableSpells = {
+                    Whirlwind = true
+                  },
+                  spellCooldowns = {
+                    Whirlwind = {0, 0}
+                  },
+                  buffs = {
+                    ["Meat Cleaver"] = "Meat Cleaver"
+                  }
+                })).next(furyWarriorMulti), "Whirlwind")
+              end)
+            end)
+
+            describe("Bloodthirst if Enrage is active", function()
+              it("Should return Bloodthirst", function()
+                assert_equal(Rotations(wow({
+                  time = 0,
+                  usableSpells = {
+                    Whirlwind = true,
+                    Bloodthirst = true
+                  },
+                  spellCooldowns = {
+                    Whirlwind = {0, 0},
+                    Bloodthirst = {0, 0}
+                  },
+                  buffs = {
+                    Enrage = "Enrage",
+                    ["Meat Cleaver"] = "Meat Cleaver"
+                  }
+                })).next(furyWarriorMulti), "Bloodthirst")
+              end)
+            end)
+
+            describe("Raging Blow (below 3 targets)", function()
+              it("Should return Raging Blow", function()
+                assert_equal(Rotations(wow({
+                  time = 0,
+                  usableSpells = {
+                    Whirlwind = true,
+                    Bloodthirst = true,
+                    ["Raging Blow"] = true
+                  },
+                  spellCooldowns = {
+                    Whirlwind = {0, 0},
+                    Bloodthirst = {0, 0},
+                    ["Raging Blow"] = {0, 0}
+                  },
+                  buffs = {
+                    Enrage = "Enrage",
+                    ["Meat Cleaver"] = "Meat Cleaver"
+                  }
+                })).next(furyWarriorMulti), "Raging Blow")
+              end)
+            end)
+
+            describe("Whirlwind on Wrecking Ball procs", function()
+              it("Should return Whirlwind", function()
+                assert_equal(Rotations(wow({
+                  time = 0,
+                  usableSpells = {
+                    Whirlwind = true,
+                    Bloodthirst = true,
+                    ["Raging Blow"] = true,
+                    ["Wrecking Ball"] = true
+                  },
+                  spellCooldowns = {
+                    Whirlwind = {0, 0},
+                    Bloodthirst = {0, 0},
+                    ["Raging Blow"] = {0, 0},
+                    ["Wrecking Ball"] = {0, 0}
+                  },
+                  buffs = {
+                    Enrage = "Enrage",
+                    ["Meat Cleaver"] = "Meat Cleaver",
+                    ["Wrecking Ball"] = "Wrecking Ball"
+                  }
+                })).next(furyWarriorMulti), "Whirlwind")
+              end)
+            end)
+
+            describe("Bloodthirst if Enrage is absent", function()
+              it("Should return Bloodthirst", function()
+                assert_equal(Rotations(wow({
+                  time = 0,
+                  usableSpells = {
+                    Whirlwind = true,
+                    Bloodthirst = true,
+                    ["Raging Blow"] = true,
+                    ["Wrecking Ball"] = true
+                  },
+                  spellCooldowns = {
+                    Whirlwind = {0, 0},
+                    Bloodthirst = {0, 0},
+                    ["Raging Blow"] = {0, 0},
+                    ["Wrecking Ball"] = {0, 0}
+                  },
+                  buffs = {
+                    ["Meat Cleaver"] = "Meat Cleaver",
+                    ["Wrecking Ball"] = "Wrecking Ball"
+                  }
+                })).next(furyWarriorMulti), "Bloodthirst")
+              end)
+            end)
+
+            describe("Rampage if Enrage is absent", function()
+              it("Should return Rampage", function()
+                assert_equal(Rotations(wow({
+                  time = 0,
+                  usableSpells = {
+                    Whirlwind = true,
+                    Bloodthirst = true,
+                    ["Raging Blow"] = true,
+                    ["Wrecking Ball"] = true,
+                    Rampage = true
+                  },
+                  spellCooldowns = {
+                    Whirlwind = {0, 0},
+                    Bloodthirst = {0, 0},
+                    ["Raging Blow"] = {0, 0},
+                    ["Wrecking Ball"] = {0, 0},
+                    Rampage = {0, 0}
+                  },
+                  buffs = {
+                    ["Meat Cleaver"] = "Meat Cleaver",
+                    ["Wrecking Ball"] = "Wrecking Ball"
+                  }
+                })).next(furyWarriorMulti), "Rampage")
+              end)
+            end)
+
+            describe("Rampage if at 100 Rage", function()
+              it("Should return Rampage", function()
+                assert_equal(Rotations(wow({
+                  time = 0,
+                  usableSpells = {
+                    Whirlwind = true,
+                    Bloodthirst = true,
+                    ["Raging Blow"] = true,
+                    ["Wrecking Ball"] = true,
+                    Rampage = true
+                  },
+                  spellCooldowns = {
+                    Whirlwind = {0, 0},
+                    Bloodthirst = {0, 0},
+                    ["Raging Blow"] = {0, 0},
+                    ["Wrecking Ball"] = {0, 0},
+                    Rampage = {0, 0}
+                  },
+                  buffs = {
+                    ["Meat Cleaver"] = "Meat Cleaver",
+                    ["Wrecking Ball"] = "Wrecking Ball",
+                    Enrage = "Enrage"
+                  },
+                  power = 100
+                })).next(furyWarriorMulti), "Rampage")
+              end)
+            end)
+
+            describe("Whirlwind to activate Meat Cleaver", function()
+              it("Should return Whirlwind", function()
+                assert_equal(Rotations(wow({
+                  time = 0,
+                  usableSpells = {
+                    Whirlwind = true,
+                    Bloodthirst = true,
+                    ["Raging Blow"] = true,
+                    ["Wrecking Ball"] = true,
+                    Rampage = true
+                  },
+                  spellCooldowns = {
+                    Whirlwind = {0, 0},
+                    Bloodthirst = {0, 0},
+                    ["Raging Blow"] = {0, 0},
+                    ["Wrecking Ball"] = {0, 0},
+                    Rampage = {0, 0}
+                  },
+                  buffs = {
+                    ["Wrecking Ball"] = "Wrecking Ball"
+                  },
+                  power = 100
+                })).next(furyWarriorMulti), "Whirlwind")
+              end)
             end)
 
         end)

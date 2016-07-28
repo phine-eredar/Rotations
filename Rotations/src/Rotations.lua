@@ -78,7 +78,7 @@ furyWarriorSingle = { {
   ability = "Furious Slash"
 } }
 
-local furyWarriorMulti = { {
+furyWarriorMulti = { {
   conditions = { {
     type = "buff",
     name = "Meat Cleaver",
