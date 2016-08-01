@@ -1,5 +1,9 @@
 function PhineRotations:NextAbilityProvider(wow)
 
+  local ABILITY_IDS = {
+    ["Void Bolt"] = 205448
+  }
+
   local evaluateOperation = function(value, condition)
 
     local met = false
@@ -50,6 +54,26 @@ function PhineRotations:NextAbilityProvider(wow)
 
       met = evaluateOperation(charges, condition)
 
+    elseif condition.type == "debuff" then
+
+      local debuffed = false
+
+      for i=1, 40 do
+        local name, _, _, _, _, _, _ , unitCaster = UnitDebuff("target", i);
+        if unitCaster == "player" and name == condition.name then
+          local start, duration = wow.GetSpellCooldown(ABILITY_IDS[ability] or ability)
+          if start + duration - wow.GetTime() > 5 then
+            debuffed = true
+          end
+        end
+      end
+
+      if condition.active then
+        met = debuffed
+      else
+        met = not debuffed
+      end
+
     elseif condition.type == "or" then
 
       for i, child in ipairs(condition.children) do
@@ -93,7 +117,8 @@ function PhineRotations:NextAbilityProvider(wow)
       return
     end
 
-    local start, duration = wow.GetSpellCooldown(rule.ability)
+    local ability = ABILITY_IDS[rule.ability] or rule.ability
+    local start, duration = wow.GetSpellCooldown(ability)
     local ready = start + duration - wow.GetTime() <= 1.5
     if not ready then
       return
