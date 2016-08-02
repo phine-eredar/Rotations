@@ -5,6 +5,7 @@ src/rotations/deathknight/FrostDeathKnight.lua
 src/rotations/paladin/RetributionPaladin.lua
 src/rotations/priest/ShadowPriest.lua
 src/rotations/shaman/EnhancementShaman.lua
+src/rotations/warlock/DestructionWarlock.lua
 src/rotations/warrior/FuryWarrior.lua
 src/rotations/RotationFactory.lua
 src/NextAbilityProvider.lua

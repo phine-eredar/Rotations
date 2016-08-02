@@ -5,7 +5,8 @@ function PhineRotations:RotationFactory(wow)
     [72] = "FuryWarrior",
     [251] = "FrostDeathKnight",
     [258] = "ShadowPriest",
-    [263] = "EnhancementShaman"
+    [263] = "EnhancementShaman",
+    [267] = "DestructionWarlock"
   }
 
   return {
