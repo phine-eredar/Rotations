@@ -1,4 +1,5 @@
 local wow = {
+  GetRuneCooldown = GetRuneCooldown,
   GetSpecialization = GetSpecialization,
   GetSpecializationInfo = GetSpecializationInfo,
   GetSpellCharges = GetSpellCharges,
@@ -7,6 +8,7 @@ local wow = {
   GetTime = GetTime,
   IsUsableSpell = IsUsableSpell,
   UnitBuff = UnitBuff,
+  UnitDebuff = UnitDebuff,
   UnitPower = UnitPower
 }
 local rotationFactory = PhineRotations:RotationFactory(wow)

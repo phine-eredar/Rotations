@@ -59,7 +59,7 @@ function PhineRotations:NextAbilityProvider(wow)
       local debuffed = false
 
       for i=1, 40 do
-        local name, _, _, _, _, _, expires, caster = UnitDebuff("target", i)
+        local name, _, _, _, _, _, expires, caster = wow.UnitDebuff("target", i)
         if caster == "player" and name == condition.name then
           if expires - wow.GetTime() > 5 then
             debuffed = true
@@ -90,7 +90,7 @@ function PhineRotations:NextAbilityProvider(wow)
       local runes = 0
 
       for i=1, 6 do
-        _, _, runeReady = GetRuneCooldown(i)
+        _, _, runeReady = wow.GetRuneCooldown(i)
         if runeReady then
           runes = runes + 1
         end
