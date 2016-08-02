@@ -1,10 +1,11 @@
 function PhineRotations:RotationFactory(wow)
 
   local specializationNames = {
-    [70] = 'RetributionPaladin',
-    [72] = 'FuryWarrior',
-    [258] = 'ShadowPriest',
-    [263] = 'EnhancementShaman'
+    [70] = "RetributionPaladin",
+    [72] = "FuryWarrior",
+    [251] = "FrostDeathKnight",
+    [258] = "ShadowPriest",
+    [263] = "EnhancementShaman"
   }
 
   return {

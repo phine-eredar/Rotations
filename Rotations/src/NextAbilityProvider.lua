@@ -59,10 +59,9 @@ function PhineRotations:NextAbilityProvider(wow)
       local debuffed = false
 
       for i=1, 40 do
-        local name, _, _, _, _, _, _ , unitCaster = UnitDebuff("target", i);
-        if unitCaster == "player" and name == condition.name then
-          local start, duration = wow.GetSpellCooldown(ABILITY_IDS[ability] or ability)
-          if start + duration - wow.GetTime() > 5 then
+        local name, _, _, _, _, _, expires, caster = UnitDebuff("target", i)
+        if caster == "player" and name == condition.name then
+          if expires - wow.GetTime() > 5 then
             debuffed = true
           end
         end
@@ -85,6 +84,19 @@ function PhineRotations:NextAbilityProvider(wow)
       local power = wow.UnitPower("player", condition.powerType or 0)
 
       met = evaluateOperation(power, condition)
+
+    elseif condition.type == "runes" then
+
+      local runes = 0
+
+      for i=1, 6 do
+        _, _, runeReady = GetRuneCooldown(i)
+        if runeReady then
+          runes = runes + 1
+        end
+      end
+
+      met = evaluateOperation(runes, condition)
 
     elseif condition.type == "talent" then
 

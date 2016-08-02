@@ -1,6 +1,7 @@
 ## Interface: 70000
 ## Title: Rotations
 src/package.lua
+src/rotations/deathknight/FrostDeathKnight.lua
 src/rotations/paladin/RetributionPaladin.lua
 src/rotations/priest/ShadowPriest.lua
 src/rotations/shaman/EnhancementShaman.lua
