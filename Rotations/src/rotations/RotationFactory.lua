@@ -1,26 +1,34 @@
 function PhineRotations:RotationFactory(wow)
 
-  local specializationNames = {
-    [70] = "RetributionPaladin",
-    [72] = "FuryWarrior",
-    [251] = "FrostDeathKnight",
-    [258] = "ShadowPriest",
-    [263] = "EnhancementShaman",
-    [267] = "DestructionWarlock"
+  local CLASS_NAMES = {
+    [1] = "Warrior",
+    [2] = "Paladin",
+    [3] = "Hunter",
+    [4] = "Rogue",
+    [5] = "Priest",
+    [6] = "DeathKnight",
+    [7] = "Shaman",
+    [8] = "Mage",
+    [9] = "Warlock",
+    [10] = "Monk",
+    [11] = "Druid",
   }
 
   return {
 
       newRotation = function()
 
-        local specialization = GetSpecialization()
-        local specializationId = GetSpecializationInfo(specialization)
+        local specId = wow.GetSpecialization()
+        local _, specNameWithSpaces = wow.GetSpecializationInfo(specId)
+        if (not specNameWithSpaces) then return end
+        local specName = string.gsub(specNameWithSpaces, " ", "")
 
-        local specializationName = specializationNames[specializationId]
+        local _, _, classId = wow.UnitClass("player")
+        local className = CLASS_NAMES[classId]
 
-        if (not specializationName) then return end
+        if (not PhineRotations[specName .. className]) then return end
 
-        return PhineRotations[specializationName]()
+        return PhineRotations[specName .. className]()
 
       end
 

@@ -1,4 +1,5 @@
 local wow = {
+  GetComboPoints = GetComboPoints,
   GetRuneCooldown = GetRuneCooldown,
   GetSpecialization = GetSpecialization,
   GetSpecializationInfo = GetSpecializationInfo,
@@ -8,7 +9,9 @@ local wow = {
   GetTime = GetTime,
   IsUsableSpell = IsUsableSpell,
   UnitBuff = UnitBuff,
+  UnitClass = UnitClass,
   UnitDebuff = UnitDebuff,
+  UnitHealth = UnitHealth,
   UnitPower = UnitPower
 }
 local rotationFactory = PhineRotations:RotationFactory(wow)

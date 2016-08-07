@@ -54,6 +54,12 @@ function PhineRotations:NextAbilityProvider(wow)
 
       met = evaluateOperation(charges, condition)
 
+    elseif condition.type == "combo" then
+
+      local comboPoints = wow.GetComboPoints("player", "target")
+
+      met = evaluateOperation(comboPoints, condition)
+
     elseif condition.type == "debuff" then
 
       local debuffed = false
@@ -72,6 +78,12 @@ function PhineRotations:NextAbilityProvider(wow)
       else
         met = not debuffed
       end
+
+    elseif condition.type == "health" then
+
+      local health = wow.UnitHealth("target")
+
+      met = evaluateOperation(health, condition)
 
     elseif condition.type == "or" then
 
