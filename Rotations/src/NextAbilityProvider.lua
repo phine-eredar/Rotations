@@ -88,7 +88,7 @@ function PhineRotations:NextAbilityProvider(wow)
       for i=1, 40 do
         local name, _, _, _, _, _, expires, caster = wow.UnitDebuff("target", i)
         if caster == "player" and name == condition.name then
-          if expires - wow.GetTime() > 5 then
+          if expires - wow.GetTime() > 2 then
             debuffed = true
           end
         end
