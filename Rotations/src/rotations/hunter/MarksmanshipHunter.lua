@@ -37,6 +37,21 @@ function PhineRotations:MarksmanshipHunter()
         name = "Sidewinders",
         active = true
       }, {
+        type = "charges",
+        name = "Sidewinder",
+        operator = ">=",
+        value = 2
+      } },
+    } },
+    ability = "Sidewinders"
+  }, {
+    conditions = { {
+      type = "and",
+      children = { {
+        type = "talent",
+        name = "Sidewinders",
+        active = true
+      }, {
         type = "buff",
         name = "Marking Targets",
         active = true
