@@ -4,6 +4,13 @@ function PhineRotations:NextAbilityProvider(wow)
     ["Void Bolt"] = 205448
   }
 
+  local DISTANCE_INDICES = {
+    Inspect = 1,
+    Trade = 2,
+    Duel = 3,
+    Follow = 4
+  }
+
   local evaluateOperation = function(value, condition)
 
     local met = false
@@ -48,9 +55,23 @@ function PhineRotations:NextAbilityProvider(wow)
         met = not buffed
       end
 
+    elseif condition.type == "cooldown" then
+
+      local _, duration = wow.GetSpellCooldown(condition.name)
+
+      met = evaluateOperation(duration, condition)
+
+    elseif condition.type == "bufftime" then
+
+      local name, _, _, _, _, _, expirationTime = wow.UnitBuff("player", condition.name)
+
+      if expirationTime ~= nil then
+        met = name == condition.name and evaluateOperation(expirationTime - GetTime(), condition)
+      end
+
     elseif condition.type == "charges" then
 
-      local charges = wow.GetSpellCharges(ability)
+      local charges = wow.GetSpellCharges(condition.ability or ability)
 
       met = evaluateOperation(charges, condition)
 
@@ -78,6 +99,12 @@ function PhineRotations:NextAbilityProvider(wow)
       else
         met = not debuffed
       end
+
+    elseif condition.type == "distance" then
+
+      local distanceIndex = DISTANCE_INDICES[condition.distance]
+
+      met = wow.CheckInteractDistance("target", distanceIndex)
 
     elseif condition.type == "health" then
 

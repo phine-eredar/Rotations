@@ -1,4 +1,5 @@
 local wow = {
+  CheckInteractDistance = CheckInteractDistance,
   GetComboPoints = GetComboPoints,
   GetRuneCooldown = GetRuneCooldown,
   GetSpecialization = GetSpecialization,
