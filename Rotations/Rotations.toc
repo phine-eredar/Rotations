@@ -2,6 +2,7 @@
 ## Title: Rotations
 src/package.lua
 src/rotations/deathknight/FrostDeathKnight.lua
+src/rotations/demonhunter/HavocDemonHunter.lua
 src/rotations/druid/FeralDruid.lua
 src/rotations/hunter/MarksmanshipHunter.lua
 src/rotations/mage/FireMage.lua

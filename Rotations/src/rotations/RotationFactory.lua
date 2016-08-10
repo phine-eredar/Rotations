@@ -12,6 +12,7 @@ function PhineRotations:RotationFactory(wow)
     [9] = "Warlock",
     [10] = "Monk",
     [11] = "Druid",
+    [12] = "DemonHunter"
   }
 
   return {
