@@ -1,17 +1,33 @@
 ## Interface: 70000
 ## Title: Rotations
 src/package.lua
+src/rotations/deathknight/BloodDeathKnight.lua
 src/rotations/deathknight/FrostDeathKnight.lua
+src/rotations/deathknight/UnholyDeathKnight.lua
 src/rotations/demonhunter/HavocDemonHunter.lua
+src/rotations/demonhunter/VengeanceDemonHunter.lua
+src/rotations/druid/BalanceDruid.lua
 src/rotations/druid/FeralDruid.lua
+src/rotations/druid/GuardianDruid.lua
+src/rotations/hunter/BeastMasteryHunter.lua
 src/rotations/hunter/MarksmanshipHunter.lua
+src/rotations/hunter/SurvivalHunter.lua
+src/rotations/mage/ArcaneMage.lua
 src/rotations/mage/FireMage.lua
+src/rotations/mage/FrostMage.lua
+src/rotations/monk/BrewmasterMonk.lua
 src/rotations/monk/WindwalkerMonk.lua
+src/rotations/paladin/ProtectionPaladin.lua
 src/rotations/paladin/RetributionPaladin.lua
 src/rotations/priest/ShadowPriest.lua
+src/rotations/shaman/ElementalShaman.lua
 src/rotations/shaman/EnhancementShaman.lua
+src/rotations/warlock/AfflictionWarlock.lua
+src/rotations/warlock/DemonologyWarlock.lua
 src/rotations/warlock/DestructionWarlock.lua
+src/rotations/warrior/ArmsWarrior.lua
 src/rotations/warrior/FuryWarrior.lua
+src/rotations/warrior/ProtectionWarrior.lua
 src/rotations/RotationFactory.lua
 src/NextAbilityProvider.lua
 src/Rotations.lua
