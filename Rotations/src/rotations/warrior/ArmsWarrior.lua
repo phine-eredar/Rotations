@@ -19,6 +19,7 @@ function PhineRotations:ArmsWarrior()
   }, {
     ability = "Colossus Smash"
   }, {
+    conditions = { {
       type = "debuff",
       name = "Colossus Smash",
       active = false
