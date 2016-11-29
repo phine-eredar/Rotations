@@ -8,21 +8,6 @@ function PhineRotations:ProtectionWarrior()
   }
 
   local single = { {
-    conditions = { {
-      type = "power",
-      powerType = 1,
-      operator = ">=",
-      value = 60
-    } },
-    ability = "Ignore Pain"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Shield Block",
-      active = false
-    } },
-    ability = "Shield Block"
-  }, {
     ability = "Shield Slam"
   }, {
     ability = "Revenge"
@@ -31,21 +16,6 @@ function PhineRotations:ProtectionWarrior()
   } }
 
   local multi = { {
-    conditions = { {
-      type = "power",
-      powerType = 1,
-      operator = ">=",
-      value = 60
-    } },
-    ability = "Ignore Pain"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Shield Block",
-      active = false
-    } },
-    ability = "Shield Block"
-  }, {
     ability = "Revenge"
   }, {
     ability = "Thunder Clap"

@@ -14,28 +14,29 @@ function PhineRotations:ArmsWarrior()
       active = true
     } },
     ability = "Execute"
-  },{
+  }, {
     ability = "Rend"
   }, {
     ability = "Colossus Smash"
   }, {
+      type = "debuff",
+      name = "Colossus Smash",
+      active = false
+    } },
+    ability = "Warbreaker"
+  }, {
     ability = "Overpower"
+  }, {
+    conditions = { {
+      type = "debuff",
+      name = "Shattered Defenses",
+      active = true
+    } },
+    ability = "Execute"
   }, {
     ability = "Mortal Strike"
   }, {
-    conditions = { {
-      type = "talent",
-      name = "Fervor of Battle",
-      active = true
-    } },
     ability = "Whirlwind"
-  }, {
-    conditions = { {
-      type = "talent",
-      name = "Fervor of Battle",
-      active = false
-    } },
-    ability = "Slam"
   } }
 
   local multi = { {
