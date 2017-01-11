@@ -9,35 +9,45 @@ function PhineRotations:ArmsWarrior()
 
   local single = { {
     conditions = { {
-      type = "debuff",
-      name = "Colossus Smash",
-      active = true
+      type = "buff",
+      name = "Shattered Defenses",
+      active = false
     } },
-    ability = "Execute"
-  }, {
-    ability = "Rend"
-  }, {
     ability = "Colossus Smash"
   }, {
     conditions = { {
-      type = "debuff",
-      name = "Colossus Smash",
-      active = false
+      type = "and",
+      children = { {
+        type = "debuff",
+        name = "Colossus Smash",
+        active = false
+      }, {
+        type = "buff",
+        name = "Shattered Defenses",
+        active = false
+      } }
     } },
     ability = "Warbreaker"
   }, {
-    ability = "Overpower"
-  }, {
-    conditions = { {
-      type = "debuff",
-      name = "Shattered Defenses",
-      active = true
-    } },
     ability = "Execute"
   }, {
     ability = "Mortal Strike"
   }, {
-    ability = "Whirlwind"
+    conditions = { {
+      type = "power",
+      powerType = 1,
+      operator = ">",
+      value = 32
+    } },
+    ability = "Slam"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 1,
+      operator = ">=",
+      value = 75
+    } },
+    ability = "Focused Rage"
   } }
 
   local multi = { {
