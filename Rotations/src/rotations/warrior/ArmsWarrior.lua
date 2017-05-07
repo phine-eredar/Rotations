@@ -34,10 +34,32 @@ function PhineRotations:ArmsWarrior()
     ability = "Mortal Strike"
   }, {
     conditions = { {
-      type = "power",
-      powerType = 1,
-      operator = ">",
-      value = 32
+      type = "and",
+      children = { {
+        type = "talent",
+        name = "Fervor of Battle",
+        active = true
+      }, {
+        type = "power",
+        powerType = 1,
+        operator = ">",
+        value = 32
+      } }
+    } },
+    ability = "Whirlwind"
+  }, {
+    conditions = { {
+      type = "and",
+      children = { {
+        type = "talent",
+        name = "Fervor of Battle",
+        active = true
+      }, {
+        type = "power",
+        powerType = 1,
+        operator = ">",
+        value = 32
+      } }
     } },
     ability = "Slam"
   }, {
