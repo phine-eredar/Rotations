@@ -12,80 +12,96 @@ function PhineRotations:EnhancementShaman()
   }
 
   local single = { {
-    conditions = {
+    conditions = { {
       type = "buff",
-      name = "Boulderfist",
+      name = "Landslide",
       active = false
-    },
-    ability = "Boulderfist"
+    } },
+    ability = "Rockbiter"
   }, {
     conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Landslide",
-        active = true
-      }, {
-        type = "buff",
-        name = "Landslide",
-        active = false
-      } }
-    } },
-    ability = "Boulderfist"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Hailstorm",
-        active = true
-      }, {
-        type = "buff",
-        name = "Frostbrand",
-        active = false
-      } }
-    } },
-    ability = "Frostbrand"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "power",
-        operator = "<",
-        value = 130
-      }, {
-        type = "charges",
-        operator = "=",
-        value = 2
-      } }
-    } },
-    ability = "Boulderfist"
-  }, {
-    conditions = {
       type = "buff",
       name = "Flametongue",
       active = false
-    },
+    } },
     ability = "Flametongue"
   }, {
+    conditions = { {
+      type = "buff",
+      name = "Stormbringer",
+      active = true
+    } },
     ability = "Stormstrike"
+  }, {
+    ability = "Windsong"
+  }, {
+    ability = "Doom Winds"
+  }, {
+    conditions = { {
+      type = "buff",
+      name = "Hot Hands",
+      active = true
+    } },
+    ability = "Lava Lash"
+  }, {
+    ability = "Stormstrike"
+  }, {
+    conditions = { {
+      type = "power",
+      operator = "<",
+      value = 80
+    } },
+    ability = "Rockbiter"
+  }, {
+    ability = "Lava Lash"
+  } }
+
+  local multi = { {
+    conditions = { {
+      type = "buff",
+      name = "Landslide",
+      active = false
+    } },
+    ability = "Rockbiter"
   }, {
     ability = "Crash Lightning"
   }, {
     conditions = { {
-      type = "power",
-      operator = ">",
-      value = 110
+      type = "buff",
+      name = "Flametongue",
+      active = false
+    } },
+    ability = "Flametongue"
+  }, {
+    conditions = { {
+      type = "buff",
+      name = "Stormbringer",
+      active = true
+    } },
+    ability = "Stormstrike"
+  }, {
+    ability = "Windsong"
+  }, {
+    ability = "Doom Winds"
+  }, {
+    conditions = { {
+      type = "buff",
+      name = "Hot Hands",
+      active = true
     } },
     ability = "Lava Lash"
   }, {
-    ability = "Boulderfist"
+    ability = "Stormstrike"
   }, {
-    ability = "Flametongue"
+    conditions = { {
+      type = "power",
+      operator = "<",
+      value = 80
+    } },
+    ability = "Rockbiter"
+  }, {
+    ability = "Lava Lash"
   } }
-
-  local multi = {
-    }
 
   return {
     talents = function() return talents end,
