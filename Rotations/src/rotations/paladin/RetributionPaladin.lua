@@ -4,6 +4,20 @@ function PhineRotations:RetributionPaladin()
 
   local single = { {
     conditions = { {
+      type = "debuff",
+      name = "Judgment",
+      active = true
+    } },
+    ability = "Templar's Verdict"
+  }, {
+    conditions = { {
+      type = "debuff",
+      name = "Judgment",
+      active = true
+    } },
+    ability = "Execution Sentence"
+  }, {
+    conditions = { {
       type = "and",
       children = { {
         type = "power",
@@ -24,7 +38,15 @@ function PhineRotations:RetributionPaladin()
       operator = "<=",
       value = 3
     } },
-    ability = "Blade of Wrath"
+    ability = "Divine Hammer"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 9,
+      operator = "<=",
+      value = 3
+    } },
+    ability = "Blade of Justice"
   }, {
     conditions = { {
       type = "power",
@@ -35,21 +57,24 @@ function PhineRotations:RetributionPaladin()
     ability = "Crusader Strike"
   }, {
     ability = "Judgment"
-  }, {
-    ability = "Execution Sentence"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Divine Purpose",
-      active = true
-    } },
-    ability = "Justicar's Vengeance"
-  }, {
-    ability = "Templar's Verdict"
   } }
 
   local multi = { {
     conditions = { {
+      type = "debuff",
+      name = "Judgment",
+      active = true
+    } },
+    ability = "Divine Storm"
+  }, {
+    conditions = { {
+      type = "debuff",
+      name = "Judgment",
+      active = true
+    } },
+    ability = "Execution Sentence"
+  }, {
+    conditions = { {
       type = "and",
       children = { {
         type = "power",
@@ -70,7 +95,15 @@ function PhineRotations:RetributionPaladin()
       operator = "<=",
       value = 3
     } },
-    ability = "Blade of Wrath"
+    ability = "Divine Hammer"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 9,
+      operator = "<=",
+      value = 3
+    } },
+    ability = "Blade of Justice"
   }, {
     conditions = { {
       type = "power",
@@ -81,17 +114,6 @@ function PhineRotations:RetributionPaladin()
     ability = "Crusader Strike"
   }, {
     ability = "Judgment"
-  }, {
-    ability = "Execution Sentence"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Divine Purpose",
-      active = true
-    } },
-    ability = "Justicar's Vengeance"
-  }, {
-    ability = "Divine Storm"
   } }
 
   return {
