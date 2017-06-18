@@ -43,6 +43,24 @@ function PhineRotations:ShadowPriest()
       children = { {
         type = "talent",
         name = "Misery",
+        active = true
+      }, {
+        type = "debuff",
+        name = "Shadow Word: Pain",
+        active = false
+      }, {
+        type = "debuff",
+        name = "Vampiric Touch",
+        active = false
+      } }
+    } },
+    ability = "Vampiric Touch"
+  }, {
+    conditions = { {
+      type = "and",
+      children = { {
+        type = "talent",
+        name = "Misery",
         active = false
       }, {
         type = "debuff",
@@ -53,9 +71,16 @@ function PhineRotations:ShadowPriest()
     ability = "Shadow Word: Pain"
   }, {
     conditions = { {
-      type = "debuff",
-      name = "Vampiric Touch",
-      active = false
+      type = "and",
+      children = { {
+        type = "talent",
+        name = "Misery",
+        active = false
+      }, {
+        type = "debuff",
+        name = "Vampiric Touch",
+        active = false
+      } }
     } },
     ability = "Vampiric Touch"
   }, {
@@ -98,6 +123,24 @@ function PhineRotations:ShadowPriest()
       children = { {
         type = "talent",
         name = "Misery",
+        active = true
+      }, {
+        type = "debuff",
+        name = "Shadow Word: Pain",
+        active = false
+      }, {
+        type = "debuff",
+        name = "Vampiric Touch",
+        active = false
+      } }
+    } },
+    ability = "Vampiric Touch"
+  }, {
+    conditions = { {
+      type = "and",
+      children = { {
+        type = "talent",
+        name = "Misery",
         active = false
       }, {
         type = "debuff",
@@ -108,9 +151,16 @@ function PhineRotations:ShadowPriest()
     ability = "Shadow Word: Pain"
   }, {
     conditions = { {
-      type = "debuff",
-      name = "Vampiric Touch",
-      active = false
+      type = "and",
+      children = { {
+        type = "talent",
+        name = "Misery",
+        active = false
+      }, {
+        type = "debuff",
+        name = "Vampiric Touch",
+        active = false
+      } }
     } },
     ability = "Vampiric Touch"
   }, {
