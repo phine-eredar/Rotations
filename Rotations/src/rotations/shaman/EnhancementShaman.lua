@@ -13,9 +13,16 @@ function PhineRotations:EnhancementShaman()
 
   local single = { {
     conditions = { {
-      type = "buff",
-      name = "Landslide",
-      active = false
+      type = "or",
+      children = { {
+        type = "buff",
+        name = "Landslide",
+        active = false
+      }, {
+        type = "charges",
+        operator = "==",
+        value = 2
+      } }
     } },
     ability = "Rockbiter"
   }, {
@@ -26,30 +33,14 @@ function PhineRotations:EnhancementShaman()
     } },
     ability = "Flametongue"
   }, {
-    conditions = { {
-      type = "buff",
-      name = "Stormbringer",
-      active = true
-    } },
-    ability = "Stormstrike"
-  }, {
-    ability = "Windsong"
-  }, {
     ability = "Doom Winds"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Hot Hands",
-      active = true
-    } },
-    ability = "Lava Lash"
   }, {
     ability = "Stormstrike"
   }, {
     conditions = { {
       type = "power",
       operator = "<",
-      value = 80
+      value = 40
     } },
     ability = "Rockbiter"
   }, {
@@ -58,9 +49,16 @@ function PhineRotations:EnhancementShaman()
 
   local multi = { {
     conditions = { {
-      type = "buff",
-      name = "Landslide",
-      active = false
+      type = "or",
+      children = { {
+        type = "buff",
+        name = "Landslide",
+        active = false
+      }, {
+        type = "charges",
+        operator = "==",
+        value = 2
+      } }
     } },
     ability = "Rockbiter"
   }, {
@@ -73,30 +71,14 @@ function PhineRotations:EnhancementShaman()
     } },
     ability = "Flametongue"
   }, {
-    conditions = { {
-      type = "buff",
-      name = "Stormbringer",
-      active = true
-    } },
-    ability = "Stormstrike"
-  }, {
-    ability = "Windsong"
-  }, {
     ability = "Doom Winds"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Hot Hands",
-      active = true
-    } },
-    ability = "Lava Lash"
   }, {
     ability = "Stormstrike"
   }, {
     conditions = { {
       type = "power",
       operator = "<",
-      value = 80
+      value = 40
     } },
     ability = "Rockbiter"
   }, {
