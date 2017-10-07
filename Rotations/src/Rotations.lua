@@ -18,21 +18,42 @@ local wow = {
 local rotationFactory = PhineRotations:RotationFactory(wow)
 local nextAbilityProvider = PhineRotations:NextAbilityProvider(wow)
 
+local inCinematic = nil
+
+local updateInCinematic = function(self, event)
+  if event == "CINEMATIC_START" then inCinematic = 1
+  elseif event == "CINEMATIC_STOP" then inCinematic = nil
+  end
+end
+
 local updateSingle = function(self, event, unit, name, rank, target)
+  local text = ""
   self.text:SetFontObject("GameFontGreenLarge")
   local rotation = rotationFactory.newRotation()
-  if not rotation then return end
-  self.text:SetText(nextAbilityProvider.next(rotation.single(), rotation.talents()))
+  if not inCinematic and rotation then
+    text = nextAbilityProvider.next(rotation.single(), rotation.talents())
+  end
+  self.text:SetText(text)
 end
 
 local updateMulti = function(self, event, unit, name, rank, target)
+  local text = ""
   self.text:SetFontObject("GameFontGreenLarge")
   local rotation = rotationFactory.newRotation()
-  if not rotation then return end
-  self.text:SetText(nextAbilityProvider.next(rotation.multi(), rotation.talents()))
+  if not inCinematic and rotation then
+    text = nextAbilityProvider.next(rotation.multi(), rotation.talents())
+  end
+  self.text:SetText(text)
 end
 
+local cinematic = CreateFrame("Frame")
+cinematic:RegisterEvent("CINEMATIC_START")
+cinematic:RegisterEvent("CINEMATIC_STOP")
+cinematic:SetScript("OnEvent", updateInCinematic)
+
 local single = CreateFrame("Frame")
+single:RegisterEvent("CINEMATIC_START")
+single:RegisterEvent("CINEMATIC_STOP")
 single:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 single:RegisterEvent("COMBAT_TEXT_UPDATE")
 single:RegisterEvent("SPELL_UPDATE_COOLDOWN")
@@ -52,6 +73,8 @@ single.text:SetAllPoints()
 single:SetPoint("CENTER", -150, -100)
 
 local multi = CreateFrame("Frame")
+multi:RegisterEvent("CINEMATIC_START")
+multi:RegisterEvent("CINEMATIC_STOP")
 multi:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 multi:RegisterEvent("COMBAT_TEXT_UPDATE")
 multi:RegisterEvent("SPELL_UPDATE_COOLDOWN")
