@@ -1,13 +1,38 @@
 function PhineRotations:ShadowPriest()
 
-  local talents = {
-    ["Misery"] = {
-      tier = 6,
-      column = 2
-    }
-  }
-
+  local talents = {}
+  
   local single = { {
+    conditions = { {
+      type = "debuff",
+      name = "Vampiric Touch",
+      active = false
+    } },
+    ability = "Vampiric Touch"
+  }, {
+    conditions = { {
+      type = "debuff",
+      name = "Shadow Word: Pain",
+      active = false
+    } },
+    ability = "Shadow Word: Pain"
+  }, {
+    conditions = { {
+      type = "buff",
+      name = "Voidform",
+      active = true
+    } },
+    ability = "Void Bolt"
+  }, {
+    conditions = { {
+      type = "buff",
+      name = "Voidform",
+      active = true
+    } },
+    ability = "Shadow Word: Death"
+  }, {
+    ability = "Mind Blast"
+  }, {
     conditions = { {
       type = "buff",
       name = "Voidform",
@@ -20,14 +45,14 @@ function PhineRotations:ShadowPriest()
       name = "Voidform",
       active = true
     } },
-    ability = "Void Bolt"
+    ability = "Mindbender"
   }, {
     conditions = { {
       type = "buff",
       name = "Voidform",
       active = true
     } },
-    ability = "Shadow Word: Death"
+    ability = "Shadowfiend"
   }, {
     conditions = { {
       type = "buff",
@@ -37,135 +62,11 @@ function PhineRotations:ShadowPriest()
     ability = "Void Eruption"
   }, {
     ability = "Mind Blast"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Misery",
-        active = true
-      }, {
-        type = "debuff",
-        name = "Shadow Word: Pain",
-        active = false
-      }, {
-        type = "debuff",
-        name = "Vampiric Touch",
-        active = false
-      } }
-    } },
-    ability = "Vampiric Touch"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Misery",
-        active = false
-      }, {
-        type = "debuff",
-        name = "Shadow Word: Pain",
-        active = false
-      } }
-    } },
-    ability = "Shadow Word: Pain"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Misery",
-        active = false
-      }, {
-        type = "debuff",
-        name = "Vampiric Touch",
-        active = false
-      } }
-    } },
-    ability = "Vampiric Touch"
   }, {
     ability = "Mind Flay"
   } }
 
-  local multi = { {
-    conditions = { {
-      type = "buff",
-      name = "Voidform",
-      active = true
-    } },
-    ability = "Void Bolt"
-  },  {
-    conditions = { {
-      type = "buff",
-      name = "Voidform",
-      active = true
-    } },
-    ability = "Shadow Crash"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Voidform",
-      active = true
-    } },
-    ability = "Shadow Word: Death"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Voidform",
-      active = false
-    } },
-    ability = "Void Eruption"
-  }, {
-    ability = "Mind Blast"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Misery",
-        active = true
-      }, {
-        type = "debuff",
-        name = "Shadow Word: Pain",
-        active = false
-      }, {
-        type = "debuff",
-        name = "Vampiric Touch",
-        active = false
-      } }
-    } },
-    ability = "Vampiric Touch"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Misery",
-        active = false
-      }, {
-        type = "debuff",
-        name = "Shadow Word: Pain",
-        active = false
-      } }
-    } },
-    ability = "Shadow Word: Pain"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Misery",
-        active = false
-      }, {
-        type = "debuff",
-        name = "Vampiric Touch",
-        active = false
-      } }
-    } },
-    ability = "Vampiric Touch"
-  }, {
-    ability = "Mind Flay"
-  } }
+  local multi = {}
 
   return {
     talents = function() return talents end,
