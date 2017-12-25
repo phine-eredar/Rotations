@@ -12,12 +12,29 @@ function PhineRotations:FeralDruid()
   }
 
   local single = { {
+    ability = "Berserk"
+  }, {
+    conditions = { {
+      type = "or",
+      children = { {
+        type = "power",
+        powerType = 3,
+        operator = "<=",
+        value = 30
+      }, {
+        type = "buff",
+        name = "Berserk",
+        active = true
+      } }
+    } },
+    ability = "Tiger's Fury"
+  }, {
     conditions = { {
       type = "buff",
-      name = "Savage Roar",
-      active = false
+      name = "Tiger's Fury",
+      active = true
     } },
-    ability = "Savage Roar"
+    ability = "Ashamane's Frenzy"
   }, {
     conditions = { {
       type = "debuff",
@@ -27,25 +44,11 @@ function PhineRotations:FeralDruid()
     ability = "Rake"
   }, {
     conditions = { {
-      type = "or",
-      children = { {
-        type = "health",
-        operator = "<",
-        value = 25
-      }, {
-        type = "talent",
-        name = "Sabertooth",
-        active = true
-      } }
-    } },
-    ability = "Ferocious Bite"
-  }, {
-    conditions = { {
       type = "and",
       children = { {
-        type = "health",
+        type = "combo",
         operator = ">=",
-        value = 25
+        value = 5
       }, {
         type = "debuff",
         name = "Rip",
@@ -55,35 +58,8 @@ function PhineRotations:FeralDruid()
     ability = "Rip"
   }, {
     conditions = { {
-      type = "talent",
-      name = "Balance Affinity",
-      active = true
-    } },
-    ability = "Moonfire"
-  }, {
-    conditions = { {
-      type = "power",
-      powerType = 3,
-      operator = "<=",
-      value = 20
-    } },
-    ability = "Tiger's Fury"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Tiger's Fury",
-      active = true
-    } },
-    ability = "Ashmane's Frenzy"
-  }, {
-    conditions = { {
       type = "and",
       children = { {
-        type = "power",
-        powerType = 3,
-        operator = ">=",
-        value = 50
-      }, {
         type = "combo",
         operator = ">=",
         value = 5
@@ -99,12 +75,29 @@ function PhineRotations:FeralDruid()
   } }
 
   local multi = { {
+    ability = "Berserk"
+  }, {
     conditions = { {
-      type = "debuff",
-      name = "Thrash",
-      active = false
+      type = "or",
+      children = { {
+        type = "power",
+        powerType = 3,
+        operator = "<=",
+        value = 30
+      }, {
+        type = "buff",
+        name = "Berserk",
+        active = true
+      } }
     } },
-    ability = "Thrash"
+    ability = "Tiger's Fury"
+  }, {
+    conditions = { {
+      type = "buff",
+      name = "Tiger's Fury",
+      active = true
+    } },
+    ability = "Ashamane's Frenzy"
   }, {
     conditions = { {
       type = "debuff",
@@ -115,18 +108,54 @@ function PhineRotations:FeralDruid()
   }, {
     conditions = { {
       type = "debuff",
-      name = "Rip",
+      name = "Thrash",
       active = false
+    } },
+    ability = "Thrash"
+  }, {
+    conditions = { {
+      type = "and",
+      children = { {
+        type = "combo",
+        operator = ">=",
+        value = 5
+      }, {
+        type = "debuff",
+        name = "Rip",
+        active = false
+      } }
     } },
     ability = "Rip"
   }, {
+    conditions = { {
+      type = "and",
+      children = { {
+        type = "combo",
+        operator = ">=",
+        value = 5
+      }, {
+        type = "debuff",
+        name = "Rip",
+        active = true
+      } }
+    } },
+    ability = "Ferocious Bite"
+  }, {
     ability = "Swipe"
+  }, {
+    ability = "Shred"
   } }
 
   return {
-    talents = function() return talents end,
-    single = function() return single end,
-    multi = function() return multi end
+    talents = function()
+      return talents
+    end,
+    single = function()
+      return single
+    end,
+    multi = function()
+      return multi
+    end
   }
 
 end
