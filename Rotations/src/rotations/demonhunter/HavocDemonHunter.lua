@@ -1,59 +1,44 @@
 function PhineRotations:HavocDemonHunter()
 
-  local talents = {
-    ["Fel Mastery"] = {
-      tier = 1,
-      column = 1
-    },
-    Prepared = {
-      tier = 2,
-      column = 1
-    }
-  }
+  local talents = {}
 
   local single = { {
     conditions = { {
-      type = "or",
-      children = { {
-        type = "power",
-        powerType = 17,
-        operator = "<=",
-        value = 85
-      }, {
-        type = "talent",
-        name = "Prepared",
-        active = true
-      } }
-    } },
-    ability = "Vengeful Retreat"
-  }, {
-    conditions = { {
-      type = "or",
-      children = { {
-        type = "and",
-        children = { {
-          type = "talent",
-          name = "Fel Mastery",
-          active = true
-        }, {
-          type = "power",
-          powerType = 17,
-          operator = "<=",
-          value = 70
-        } }
-      }, {
-        type = "charges",
-        operator = "==",
-        value = 2
-      } }
+      type = "charges",
+      operator = "==",
+      value = 2
     } },
     ability = "Fel Rush"
+  }, {
+    ability = "Nemesis"
+  }, {
+    ability = "Chaos Blades"
+  }, {
+    ability = "Fury of the Illidari"
+  }, {
+    ability = "Fel Barrage"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 17,
+      operator = "<=",
+      value = 110
+    } },
+    ability = "Felblade"
   }, {
     conditions = { {
       type = "power",
       powerType = 17,
       operator = ">=",
-      value = 70
+      value = 80
+    } },
+    ability = "Metamorphosis"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 17,
+      operator = ">=",
+      value = 40
     } },
     ability = "Annihilation"
   }, {
@@ -61,21 +46,88 @@ function PhineRotations:HavocDemonHunter()
       type = "power",
       powerType = 17,
       operator = ">=",
-      value = 70
+      value = 40
     } },
     ability = "Chaos Strike"
-  }, {
-    ability = "Demon's Bite"
-  }, {
-    ability = "Throw Glaive"
   } }
 
-  local multi = {}
+  local multi = { {
+    conditions = { {
+      type = "charges",
+      operator = "==",
+      value = 2
+    } },
+    ability = "Fel Rush"
+  }, {
+    ability = "Nemesis"
+  }, {
+    ability = "Chaos Blades"
+  }, {
+    ability = "Fury of the Illidari"
+  }, {
+    ability = "Fel Barrage"
+  }, {
+    ability = "Eye Beam"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 17,
+      operator = "<=",
+      value = 110
+    } },
+    ability = "Felblade"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 17,
+      operator = ">=",
+      value = 80
+    } },
+    ability = "Metamorphosis"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 17,
+      operator = ">=",
+      value = 35
+    } },
+    ability = "Death Sweep"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 17,
+      operator = ">=",
+      value = 35
+    } },
+    ability = "Blade Dance"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 17,
+      operator = ">=",
+      value = 40
+    } },
+    ability = "Annihilation"
+  }, {
+    conditions = { {
+      type = "power",
+      powerType = 17,
+      operator = ">=",
+      value = 40
+    } },
+    ability = "Chaos Strike"
+  } }
 
   return {
-    talents = function() return talents end,
-    single = function() return single end,
-    multi = function() return multi end
+    talents = function()
+      return talents
+    end,
+    single = function()
+      return single
+    end,
+    multi = function()
+      return multi
+    end
   }
 
 end
