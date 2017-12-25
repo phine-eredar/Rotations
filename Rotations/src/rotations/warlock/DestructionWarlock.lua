@@ -1,11 +1,6 @@
 function PhineRotations:DestructionWarlock()
 
-  local talents = {
-     Eradication = {
-      tier = 4,
-      column = 1
-    }
-  }
+  local talents = {}
 
   local single = { {
     conditions = { {
@@ -15,43 +10,66 @@ function PhineRotations:DestructionWarlock()
     } },
     ability = "Immolate"
   }, {
-    conditions = { {
-      type = "power",
-      powerType = 7,
-      operator = ">=",
-      value = 5
-    } },
-    ability = "Chaos Bolt"
-  }, {
     ability = "Conflagrate"
   }, {
-    ability = "Shadowburn"
+    ability = "Chaos Bolt"
   }, {
-    ability = "Conflagrate"
+    ability = "Channel Demonfire"
+  }, {
+    ability = "Grimoire: Imp"
+  }, {
+    ability = "Soul Harvest"
   }, {
     conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Eradication",
-        active = true
-      }, {
-        type = "debuff",
-        name = "Eradication",
-        active = false
-      } }
+      type = "charges",
+      operator = "==",
+      value = 3
     } },
-    ability = "Chaos Bolt"
+    ability = "Dimensional Rift"
   }, {
     ability = "Incinerate"
   } }
 
-  local multi = {}
+  local multi = { {
+    conditions = { {
+      type = "debuff",
+      name = "Immolate",
+      active = false
+    } },
+    ability = "Immolate"
+  }, {
+    ability = "Conflagrate"
+  }, {
+    ability = "Rain of Fire"
+  }, {
+    ability = "Chaos Bolt"
+  }, {
+    ability = "Channel Demonfire"
+  }, {
+    ability = "Grimoire: Imp"
+  }, {
+    ability = "Soul Harvest"
+  }, {
+    conditions = { {
+      type = "charges",
+      operator = "==",
+      value = 3
+    } },
+    ability = "Dimensional Rift"
+  }, {
+    ability = "Incinerate"
+  } }
 
   return {
-    talents = function() return talents end,
-    single = function() return single end,
-    multi = function() return multi end
+    talents = function()
+      return talents
+    end,
+    single = function()
+      return single
+    end,
+    multi = function()
+      return multi
+    end
   }
 
 end
