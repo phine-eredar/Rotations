@@ -3,9 +3,11 @@ function PhineRotations:WindwalkerMonk()
   local talents = {}
 
   local single = { {
+    ability = "Rising Sun Kick"
+  }, {
     ability = "Fists of Fury"
   }, {
-    ability = "Whirling Dragon Punch"
+    ability = "Strikes of the Windlord"
   }, {
     conditions = { {
       type = "and",
@@ -23,21 +25,33 @@ function PhineRotations:WindwalkerMonk()
     } },
     ability = "Tiger Palm"
   }, {
-    ability = "Rising Sun Kick"
+    ability = "Blackout Kick"
   }, {
-    ability = "Chi Wave"
+    ability = "Tiger Palm"
+  } }
+
+  local multi = { {
+    ability = "Fists of Fury"
+  }, {
+    ability = "Strikes of the Windlord"
+  }, {
+    ability = "Spinning Crane Kick"
   }, {
     ability = "Blackout Kick"
   }, {
     ability = "Tiger Palm"
   } }
 
-  local multi = {}
-
   return {
-    talents = function() return talents end,
-    single = function() return single end,
-    multi = function() return multi end
+    talents = function()
+      return talents
+    end,
+    single = function()
+      return single
+    end,
+    multi = function()
+      return multi
+    end
   }
 
 end
