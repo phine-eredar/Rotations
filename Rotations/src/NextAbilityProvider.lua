@@ -15,6 +15,8 @@ function PhineRotations:NextAbilityProvider(wow)
 
     local met = false
 
+    value = value or 0;
+
     if condition.operator == "<" then
       met = value < condition.value
     elseif condition.operator == "<=" then
@@ -71,7 +73,13 @@ function PhineRotations:NextAbilityProvider(wow)
 
     elseif condition.type == "charges" then
 
-      local charges = wow.GetSpellCharges(condition.ability or ability)
+      local charges = 0
+      if (condition.buff ~= nil) then
+        local _, _, _,   count = wow.UnitBuff("player", condition.buff)
+        charges = count or 0
+      else
+        charges = wow.GetSpellCharges(condition.ability or ability)
+      end
 
       met = evaluateOperation(charges, condition)
 
@@ -85,7 +93,7 @@ function PhineRotations:NextAbilityProvider(wow)
 
       local debuffed = false
 
-      for i=1, 40 do
+      for i = 1, 40 do
         local name, _, _, _, _, _, expires, caster = wow.UnitDebuff("target", i)
         if caster == "player" and name == condition.name then
           if expires - wow.GetTime() > 2 then
@@ -128,7 +136,7 @@ function PhineRotations:NextAbilityProvider(wow)
 
       local runes = 0
 
-      for i=1, 6 do
+      for i = 1, 6 do
         _, _, runeReady = wow.GetRuneCooldown(i)
         if runeReady then
           runes = runes + 1
