@@ -41,6 +41,8 @@ function PhineRotations:BloodDeathKnight()
     } },
     ability = "Death Strike"
   }, {
+    ability = "Blooddrinker"
+  }, {
     conditions = { {
       type = "charges",
       buff = "Bone Shield",
