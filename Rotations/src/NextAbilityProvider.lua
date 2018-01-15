@@ -116,7 +116,8 @@ function PhineRotations:NextAbilityProvider(wow)
 
     elseif condition.type == "health" then
 
-      local health = wow.UnitHealth("target")
+      local unit = condition.unit or "target"
+      local health = wow.UnitHealth(unit)
 
       met = evaluateOperation(health, condition)
 
