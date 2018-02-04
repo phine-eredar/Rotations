@@ -8,74 +8,31 @@ function PhineRotations:MarksmanshipHunter()
   }
 
   local single = { {
+    ability = "Windburst"
+  }, {
     conditions = { {
-      type = "and",
-      children = { {
-        type = "buff",
-        name = "Vulnerable",
-        active = false
-      } }
+      type = "power",
+      powerType = 2,
+      operator = ">=",
+      value = 73
     } },
     ability = "Marked Shot"
   }, {
-    ability = "Barrage"
+    conditions = { {
+      type = "buff",
+      name = "Marking Targets",
+      active = true
+    } },
+    ability = "Arcane Shot"
   }, {
     conditions = { {
-      type = "and",
-      children = {  {
-        type = "debuff",
-        name = "Vulnerable",
-        active = true
-      } }
+      type = "power",
+      powerType = 2,
+      operator = ">=",
+      value = 65
     } },
     ability = "Aimed Shot"
   }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Sidewinders",
-        active = true
-      }, {
-        type = "charges",
-        name = "Sidewinder",
-        operator = ">=",
-        value = 2
-      } },
-    } },
-    ability = "Sidewinders"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Sidewinders",
-        active = true
-      }, {
-        type = "buff",
-        name = "Marking Targets",
-        active = true
-      }, {
-        type = "power",
-        powerType = 2,
-        operator = ">=",
-        value = 60
-      } }
-    } },
-    ability = "Sidewinders"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Sidewinders",
-        active = false
-      }, {
-        type = "buff",
-        name = "Marking Targets",
-        active = true
-      } }
-    } },
     ability = "Arcane Shot"
   } }
 
