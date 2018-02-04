@@ -20,6 +20,7 @@ src/rotations/monk/WindwalkerMonk.lua
 src/rotations/paladin/ProtectionPaladin.lua
 src/rotations/paladin/RetributionPaladin.lua
 src/rotations/priest/ShadowPriest.lua
+src/rotations/rogue/AssassinationRogue.lua
 src/rotations/shaman/ElementalShaman.lua
 src/rotations/shaman/EnhancementShaman.lua
 src/rotations/warlock/AfflictionWarlock.lua

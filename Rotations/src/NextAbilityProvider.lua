@@ -17,7 +17,9 @@ function PhineRotations:NextAbilityProvider(wow)
 
     value = value or 0;
 
-    if condition.operator == "<" then
+    if not condition.operator then
+      print("Missing condition operator: " .. condition.type)
+    elseif condition.operator == "<" then
       met = value < condition.value
     elseif condition.operator == "<=" then
       met = value <= condition.value
