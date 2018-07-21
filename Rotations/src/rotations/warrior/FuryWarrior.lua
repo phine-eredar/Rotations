@@ -1,8 +1,6 @@
 local Buffed = PhineRotations.Buffed
 local Not = PhineRotations.Not
-local Power = PhineRotations.Power
 local Rotation = PhineRotations.Rotation
-local Talented = PhineRotations.Talented
 
 function PhineRotations:FuryWarrior()
   local talents = {
@@ -11,22 +9,22 @@ function PhineRotations:FuryWarrior()
   }
 
   local single = Rotation()
-  single.use("Rampage").whenAny(Not(Buffed("Enrage")), Power(">=", 100))
-  single.use("Bloodthirst").when(Not(Buffed("Enrage")))
-  single.use("Execute").when(Talented("Massacre"))
-  single.use("Whirlwind").when(Buffed("Wrecking Ball"))
-  single.use("Execute").whenAll(Not(Talented("Massacre")), Buffed("Enrage"))
-  single.use("Raging Blow").whenAny(Talented("Inner Rage"), Buffed("Enrage"))
+  single.use("Recklessness")
+  single.use("Rampage")
+  single.use("Execute").when(Buffed("Enrage"))
   single.use("Bloodthirst")
-  single.use("Furious Slash")
+  single.use("Dragon Roar").when(Buffed("Enrage"))
+  single.use("Raging Blow")
+  single.use("Whirlwind")
 
   local multi = Rotation()
-  multi.use("Whirlwind").when(Not(Buffed("Meat Cleaver")))
-  multi.use("Rampage").whenAny(Not(Buffed("Enrage")), Power("<=", 100))
-  multi.use("Bloodthirst").when(Not(Buffed("Enrage")))
-  multi.use("Whirlwind").when(Buffed("Wrecking Ball"))
-  multi.use("Raging Blow")
+  multi.use("Recklessness")
+  multi.use("Whirlwind").when(Not(Buffed("Whirlwind")))
+  multi.use("Rampage")
+  multi.use("Execute").when(Buffed("Enrage"))
   multi.use("Bloodthirst")
+  multi.use("Dragon Roar").when(Buffed("Enrage"))
+  multi.use("Raging Blow")
   multi.use("Whirlwind")
 
   return {
