@@ -1,132 +1,37 @@
-function PhineRotations:FuryWarrior()
+local Buffed = PhineRotations.Buffed
+local Not = PhineRotations.Not
+local Power = PhineRotations.Power
+local Rotation = PhineRotations.Rotation
+local Talented = PhineRotations.Talented
 
+function PhineRotations:FuryWarrior()
   local talents = {
-    ["Inner Rage"] = {
-      tier = 6,
-      column = 3
-    },
-    Massacre = {
-      tier = 5,
-      column = 1
-    }
+    ["Inner Rage"] = { tier = 6, column = 3 },
+    Massacre = { tier = 5, column = 1 }
   }
 
-  local single = { {
-    conditions = { {
-      type = "or",
-      children = { {
-        type = "buff",
-        name = "Enrage",
-        active = false
-      }, {
-        type = "power",
-        operator = ">=",
-        value = 100
-      } }
-    } },
-    ability = "Rampage"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Enrage",
-      active = false
-    } },
-    ability = "Bloodthirst"
-  }, {
-    conditions = { {
-      type = "talent",
-      name = "Massacre",
-      active = true
-    } },
-    ability = "Execute"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Wrecking Ball",
-      active = true
-    } },
-    ability = "Whirlwind"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Massacre",
-        active = false
-      }, {
-        type = "buff",
-        name = "Enrage",
-        active = true
-      } }
-    } },
-    ability = "Execute"
-  }, {
-    conditions = { {
-      type = "or",
-      children = { {
-        type = "talent",
-        name = "Inner Rage",
-        active = true
-      }, {
-        type = "buff",
-        name = "Enrage",
-        active = true
-      } }
-    } },
-    ability = "Raging Blow"
-  }, {
-    ability = "Bloodthirst"
-  }, {
-    ability = "Furious Slash"
-  } }
+  local single = Rotation()
+  single.use("Rampage").whenAny(Not(Buffed("Enrage")), Power(">=", 100))
+  single.use("Bloodthirst").when(Not(Buffed("Enrage")))
+  single.use("Execute").when(Talented("Massacre"))
+  single.use("Whirlwind").when(Buffed("Wrecking Ball"))
+  single.use("Execute").whenAll(Not(Talented("Massacre")), Buffed("Enrage"))
+  single.use("Raging Blow").whenAny(Talented("Inner Rage"), Buffed("Enrage"))
+  single.use("Bloodthirst")
+  single.use("Furious Slash")
 
-  local multi = { {
-    conditions = { {
-      type = "buff",
-      name = "Meat Cleaver",
-      active = false
-    } },
-    ability = "Whirlwind"
-  }, {
-    conditions = { {
-      type = "or",
-      children = { {
-        type = "buff",
-        name = "Enrage",
-        active = false
-      }, {
-        type = "power",
-        operator = ">=",
-        value = 100
-      } }
-    } },
-    ability = "Rampage"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Enrage",
-      active = false
-    } },
-    ability = "Bloodthirst"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Wrecking Ball",
-      active = true
-    } },
-    ability = "Whirlwind"
-  }, {
-    ability = "Raging Blow"
-  }, {
-    ability = "Bloodthirst"
-  }, {
-    ability = "Whirlwind"
-  } }
+  local multi = Rotation()
+  multi.use("Whirlwind").when(Not(Buffed("Meat Cleaver")))
+  multi.use("Rampage").whenAny(Not(Buffed("Enrage")), Power("<=", 100))
+  multi.use("Bloodthirst").when(Not(Buffed("Enrage")))
+  multi.use("Whirlwind").when(Buffed("Wrecking Ball"))
+  multi.use("Raging Blow")
+  multi.use("Bloodthirst")
+  multi.use("Whirlwind")
 
   return {
     talents = function() return talents end,
-    single = function() return single end,
-    multi = function() return multi end
+    single = function() return single.get() end,
+    multi = function() return multi.get() end
   }
-
 end

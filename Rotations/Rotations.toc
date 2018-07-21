@@ -1,6 +1,7 @@
 ## Interface: 70000
 ## Title: Rotations
 src/package.lua
+src/Rotation.lua
 src/rotations/deathknight/BloodDeathKnight.lua
 src/rotations/deathknight/FrostDeathKnight.lua
 src/rotations/deathknight/UnholyDeathKnight.lua
