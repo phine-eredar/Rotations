@@ -3,10 +3,7 @@ local Not = PhineRotations.Not
 local Rotation = PhineRotations.Rotation
 
 function PhineRotations:FuryWarrior()
-  local talents = {
-    ["Inner Rage"] = { tier = 6, column = 3 },
-    Massacre = { tier = 5, column = 1 }
-  }
+  local talents = {}
 
   local single = Rotation()
   single.use("Recklessness")
