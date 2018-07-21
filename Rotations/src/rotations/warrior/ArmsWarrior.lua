@@ -1,96 +1,29 @@
+local Debuffed = PhineRotations.Debuffed
+local Rotation = PhineRotations.Rotation
+
 function PhineRotations:ArmsWarrior()
+  local talents = {}
 
-  local talents = {
-    ["Fervor of Battle"] = {
-      tier = 3,
-      column = 1
-    }
-  }
+  local single = Rotation()
+  single.use("Warbreaker")
+  single.use("Bladestorm").when(Debuffed("Colossus Smash"))
+  single.use("Execute")
+  single.use("Mortal Strike")
+  single.use("Overpower")
+  single.use("Whirlwind")
 
-  local single = { {
-    conditions = { {
-      type = "buff",
-      name = "Shattered Defenses",
-      active = false
-    } },
-    ability = "Colossus Smash"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "debuff",
-        name = "Colossus Smash",
-        active = false
-      }, {
-        type = "buff",
-        name = "Shattered Defenses",
-        active = false
-      } }
-    } },
-    ability = "Warbreaker"
-  }, {
-    ability = "Execute"
-  }, {
-    ability = "Mortal Strike"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Fervor of Battle",
-        active = true
-      }, {
-        type = "power",
-        powerType = 1,
-        operator = ">",
-        value = 32
-      } }
-    } },
-    ability = "Whirlwind"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "talent",
-        name = "Fervor of Battle",
-        active = true
-      }, {
-        type = "power",
-        powerType = 1,
-        operator = ">",
-        value = 32
-      } }
-    } },
-    ability = "Slam"
-  }, {
-    conditions = { {
-      type = "power",
-      powerType = 1,
-      operator = ">=",
-      value = 75
-    } },
-    ability = "Focused Rage"
-  } }
-
-  local multi = { {
-    conditions = { {
-      type = "buff",
-      name = "Cleave",
-      active = false
-    } },
-    ability = "Cleave"
-  }, {
-    ability = "Mortal Strike"
-  }, {
-    ability = "Whirlwind"
-  }, {
-    ability = "Colossus Smash"
-  } }
+  local multi = Rotation()
+  multi.use("Warbreaker")
+  multi.use("Bladestorm").when(Debuffed("Colossus Smash"))
+  multi.use("Sweeping Strikes")
+  multi.use("Execute")
+  multi.use("Mortal Strike")
+  multi.use("Overpower")
+  multi.use("Whirlwind")
 
   return {
     talents = function() return talents end,
-    single = function() return single end,
-    multi = function() return multi end
+    single = function() return single.get() end,
+    multi = function() return multi.get() end
   }
-
 end

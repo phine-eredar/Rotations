@@ -35,7 +35,14 @@ function PhineRotations:NextAbilityProvider(wow)
 
   local findBuff = function(name)
     for i = 1, 40 do
-      if wow.UnitBuff("player", i) == name then return UnitBuff("player", ind); end
+      if wow.UnitBuff("player", i) == name then return wow.UnitBuff("player", i); end
+    end
+  end
+
+  local findDebuff = function(condition)
+    for i = 1, 40 do
+      local name, _, _, _, _, expires = wow.UnitDebuff("target", i, "PLAYER")
+      if name == condition.name then return expires end
     end
   end
 
@@ -77,19 +84,9 @@ function PhineRotations:NextAbilityProvider(wow)
       met = evaluateOperation(comboPoints, condition)
     elseif condition.type == "debuff" then
       local debuffed = false
-      for i = 1, 40 do
-        local name, _, _, _, _, _, expires, caster = wow.UnitDebuff("target", i)
-        if caster == "player" and name == condition.name then
-          if expires - wow.GetTime() > 2 then
-            debuffed = true
-          end
-        end
-      end
-      if condition.active then
-        met = debuffed
-      else
-        met = not debuffed
-      end
+      local expires = findDebuff(condition)
+      if expires ~= nil and expires - wow.GetTime() > 2 then debuffed = true end
+      if condition.active then met = debuffed else met = not debuffed end
     elseif condition.type == "distance" then
       local distanceIndex = DISTANCE_INDICES[condition.distance]
       met = wow.CheckInteractDistance("target", distanceIndex)

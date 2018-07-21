@@ -1,14 +1,18 @@
-function PhineRotations.Not(condition)
-  condition.active = false
-  return condition
+function PhineRotations.And(cond1, cond2)
+  return { type = "and", children = { cond1, cond2 } }
 end
 
 function PhineRotations.Buffed(name)
   return { type = "buff", name = name, active = true }
 end
 
-function PhineRotations.And(cond1, cond2)
-  return { type = "and", children = { cond1, cond2 } }
+function PhineRotations.Debuffed(name)
+  return { type = "debuff", name = name, active = true }
+end
+
+function PhineRotations.Not(condition)
+  condition.active = false
+  return condition
 end
 
 function PhineRotations.Or(cond1, cond2)
