@@ -1,34 +1,24 @@
+local Buffed = PhineRotations.Buffed
+local Rotation = PhineRotations.Rotation
+
 function PhineRotations:ProtectionWarrior()
+  local talents = {}
 
-  local talents = {
-    Vengeance = {
-      tier = 6,
-      column = 1
-    }
-  }
+  local single = Rotation()
+  single.use("Shield Slam")
+  single.use("Thunder Clap")
+  single.use("Revenge").when(Buffed("Revenge!"))
+  single.use("Devastate")
 
-  local single = { {
-    ability = "Shield Slam"
-  }, {
-    ability = "Revenge"
-  }, {
-    ability = "Devastate"
-  } }
-
-  local multi = { {
-    ability = "Revenge"
-  }, {
-    ability = "Thunder Clap"
-  }, {
-    ability = "Shield Slam"
-  }, {
-    ability = "Devastate"
-  } }
+  local multi = Rotation()
+  multi.use("Shield Slam")
+  multi.use("Thunder Clap")
+  multi.use("Revenge").when(Buffed("Revenge!"))
+  multi.use("Devastate")
 
   return {
     talents = function() return talents end,
-    single = function() return single end,
-    multi = function() return multi end
+    single = function() return single.get() end,
+    multi = function() return multi.get() end
   }
-
 end
