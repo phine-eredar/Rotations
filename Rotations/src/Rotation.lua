@@ -1,5 +1,5 @@
-function PhineRotations.And(cond1, cond2)
-  return { type = "and", children = { cond1, cond2 } }
+function PhineRotations.And(...)
+  return { type = "and", children = { ... } }
 end
 
 function PhineRotations.Buffed(name)
@@ -15,8 +15,8 @@ function PhineRotations.Not(condition)
   return condition
 end
 
-function PhineRotations.Or(cond1, cond2)
-  return { type = "or", children = { cond1, cond2 } }
+function PhineRotations.Or(...)
+  return { type = "or", children = { ... } }
 end
 
 function PhineRotations.Power(operator, value)
@@ -37,12 +37,12 @@ function PhineRotations.Rotation(rotation)
     return this
   end
 
-  this.whenAll = function(cond1, cond2)
-    return this.when(PhineRotations.And(cond1, cond2))
+  this.whenAll = function(...)
+    return this.when(PhineRotations.And(...))
   end
 
-  this.whenAny = function(cond1, cond2)
-    return this.when(PhineRotations.Or(cond1, cond2))
+  this.whenAny = function(...)
+    return this.when(PhineRotations.Or(...))
   end
 
   this.when = function(condition)
