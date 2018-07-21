@@ -1,94 +1,31 @@
+local Buffed = PhineRotations.Buffed
+local Not = PhineRotations.Not
+local Power = PhineRotations.Power
+local Rotation = PhineRotations.Rotation
+
 function PhineRotations:EnhancementShaman()
+  local talents = {}
 
-  local talents = {
-    Hailstorm = {
-      tier = 4,
-      column = 3
-    },
-    Landslide = {
-      tier = 7,
-      columnn = 1
-    }
-  }
+  local single = Rotation()
+  single.use("Lightning Shield").when(Not(Buffed("Lightning Shield")))
+  single.use("Sundering")
+  single.use("Stormstrike")
+  single.use("Flametongue")
+  single.use("Lava Lash").when(Power(">=", 50))
+  single.use("Rockbiter")
 
-  local single = { {
-    conditions = { {
-      type = "or",
-      children = { {
-        type = "buff",
-        name = "Landslide",
-        active = false
-      }, {
-        type = "charges",
-        operator = "==",
-        value = 2
-      } }
-    } },
-    ability = "Rockbiter"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Flametongue",
-      active = false
-    } },
-    ability = "Flametongue"
-  }, {
-    ability = "Doom Winds"
-  }, {
-    ability = "Stormstrike"
-  }, {
-    conditions = { {
-      type = "power",
-      operator = "<",
-      value = 40
-    } },
-    ability = "Rockbiter"
-  }, {
-    ability = "Lava Lash"
-  } }
-
-  local multi = { {
-    conditions = { {
-      type = "or",
-      children = { {
-        type = "buff",
-        name = "Landslide",
-        active = false
-      }, {
-        type = "charges",
-        operator = "==",
-        value = 2
-      } }
-    } },
-    ability = "Rockbiter"
-  }, {
-    ability = "Crash Lightning"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Flametongue",
-      active = false
-    } },
-    ability = "Flametongue"
-  }, {
-    ability = "Doom Winds"
-  }, {
-    ability = "Stormstrike"
-  }, {
-    conditions = { {
-      type = "power",
-      operator = "<",
-      value = 40
-    } },
-    ability = "Rockbiter"
-  }, {
-    ability = "Lava Lash"
-  } }
+  local multi = Rotation()
+  multi.use("Lightning Shield").when(Not(Buffed("Lightning Shield")))
+  multi.use("Sundering")
+  multi.use("Crash Lightning")
+  multi.use("Stormstrike")
+  multi.use("Flametongue")
+  multi.use("Lava Lash").when(Power(">=", 50))
+  multi.use("Rockbiter")
 
   return {
     talents = function() return talents end,
-    single = function() return single end,
-    multi = function() return multi end
+    single = function() return single.get() end,
+    multi = function() return multi.get() end
   }
-
 end
