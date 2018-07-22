@@ -1,161 +1,34 @@
+local Buffed = PhineRotations.Buffed
+local Combo = PhineRotations.Combo
+local Debuffed = PhineRotations.Debuffed
+local Not = PhineRotations.Not
+local Power = PhineRotations.Power
+local Rotation = PhineRotations.Rotation
+
 function PhineRotations:FeralDruid()
+  local talents = {}
 
-  local talents = {
-    ["Balance Affinity"] = {
-      tier = 3,
-      column = 1
-    },
-    ["Sabertooth"] = {
-      tier = 6,
-      column = 1
-    }
-  }
+  local single = Rotation()
+  single.use("Berserk")
+  single.use("Tiger's Fury").whenAny(Power("<", 40, 3), Buffed("Berserk"))
+  single.use("Rip").whenAll(Combo(">=", 5), Not(Debuffed("Rip")))
+  single.use("Rake").when(Not(Debuffed("Rake")))
+  single.use("Ferocious Bite").whenAll(Combo(">=", 5), Debuffed("Rip"))
+  single.use("Shred")
 
-  local single = { {
-    ability = "Berserk"
-  }, {
-    conditions = { {
-      type = "or",
-      children = { {
-        type = "power",
-        powerType = 3,
-        operator = "<=",
-        value = 30
-      }, {
-        type = "buff",
-        name = "Berserk",
-        active = true
-      } }
-    } },
-    ability = "Tiger's Fury"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Tiger's Fury",
-      active = true
-    } },
-    ability = "Ashamane's Frenzy"
-  }, {
-    conditions = { {
-      type = "debuff",
-      name = "Rake",
-      active = false
-    } },
-    ability = "Rake"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "combo",
-        operator = ">=",
-        value = 5
-      }, {
-        type = "debuff",
-        name = "Rip",
-        active = false
-      } }
-    } },
-    ability = "Rip"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "combo",
-        operator = ">=",
-        value = 5
-      }, {
-        type = "debuff",
-        name = "Rip",
-        active = true
-      } }
-    } },
-    ability = "Ferocious Bite"
-  }, {
-    ability = "Shred"
-  } }
-
-  local multi = { {
-    ability = "Berserk"
-  }, {
-    conditions = { {
-      type = "or",
-      children = { {
-        type = "power",
-        powerType = 3,
-        operator = "<=",
-        value = 30
-      }, {
-        type = "buff",
-        name = "Berserk",
-        active = true
-      } }
-    } },
-    ability = "Tiger's Fury"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Tiger's Fury",
-      active = true
-    } },
-    ability = "Ashamane's Frenzy"
-  }, {
-    conditions = { {
-      type = "debuff",
-      name = "Rake",
-      active = false
-    } },
-    ability = "Rake"
-  }, {
-    conditions = { {
-      type = "debuff",
-      name = "Thrash",
-      active = false
-    } },
-    ability = "Thrash"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "combo",
-        operator = ">=",
-        value = 5
-      }, {
-        type = "debuff",
-        name = "Rip",
-        active = false
-      } }
-    } },
-    ability = "Rip"
-  }, {
-    conditions = { {
-      type = "and",
-      children = { {
-        type = "combo",
-        operator = ">=",
-        value = 5
-      }, {
-        type = "debuff",
-        name = "Rip",
-        active = true
-      } }
-    } },
-    ability = "Ferocious Bite"
-  }, {
-    ability = "Swipe"
-  }, {
-    ability = "Shred"
-  } }
+  local multi = Rotation()
+  multi.use("Berserk")
+  multi.use("Tiger's Fury").whenAny(Power("<", 40, 3), Buffed("Berserk"))
+  multi.use("Rip").whenAll(Combo(">=", 5), Not(Debuffed("Rip")))
+  multi.use("Rake").when(Not(Debuffed("Rake")))
+  multi.use("Thrash")
+  multi.use("Ferocious Bite").whenAll(Combo(">=", 5), Debuffed("Rip"))
+  multi.use("Swipe")
+  multi.use("Shred")
 
   return {
-    talents = function()
-      return talents
-    end,
-    single = function()
-      return single
-    end,
-    multi = function()
-      return multi
-    end
+    talents = function() return talents end,
+    single = function() return single.get() end,
+    multi = function() return multi.get() end
   }
-
 end

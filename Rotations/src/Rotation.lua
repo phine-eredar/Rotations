@@ -6,6 +6,10 @@ function PhineRotations.Buffed(name)
   return { type = "buff", name = name, active = true }
 end
 
+function PhineRotations.Combo(operator, value)
+  return { type = "combo", operator = operator, value = value }
+end
+
 function PhineRotations.Debuffed(name)
   return { type = "debuff", name = name, active = true }
 end
@@ -19,8 +23,8 @@ function PhineRotations.Or(...)
   return { type = "or", children = { ... } }
 end
 
-function PhineRotations.Power(operator, value)
-  return { type = "power", operator = operator, value = value }
+function PhineRotations.Power(operator, value, powerType)
+  return { type = "power", operator = operator, value = value, powerType = powerType }
 end
 
 function PhineRotations.Talented(name)
