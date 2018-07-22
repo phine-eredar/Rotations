@@ -41,9 +41,10 @@ function PhineRotations:NextAbilityProvider(wow)
 
   local findDebuff = function(condition)
     for i = 1, 40 do
-      local name, _, _, _, _, expires = wow.UnitDebuff("target", i, "PLAYER")
-      if name == condition.name then return expires end
+      local name = wow.UnitDebuff("target", i, "PLAYER")
+      if name == condition.name then return true end
     end
+    return false
   end
 
   local evaluateCondition
@@ -83,9 +84,7 @@ function PhineRotations:NextAbilityProvider(wow)
       local comboPoints = wow.GetComboPoints("player", "target")
       met = evaluateOperation(comboPoints, condition)
     elseif condition.type == "debuff" then
-      local debuffed = false
-      local expires = findDebuff(condition)
-      if expires ~= nil and expires - wow.GetTime() > 2 then debuffed = true end
+      local debuffed = findDebuff(condition)
       if condition.active then met = debuffed else met = not debuffed end
     elseif condition.type == "distance" then
       local distanceIndex = DISTANCE_INDICES[condition.distance]
