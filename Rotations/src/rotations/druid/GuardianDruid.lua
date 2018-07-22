@@ -1,15 +1,26 @@
-function PhineRotations:GuardianDruid()
+local Debuffed = PhineRotations.Debuffed
+local Not = PhineRotations.Not
+local Rotation = PhineRotations.Rotation
 
+function PhineRotations:GuardianDruid()
   local talents = {}
 
-  local single = {}
+  local single = Rotation()
+  single.use("Moonfire").when(Not(Debuffed("Moonfire")))
+  single.use("Mangle")
+  single.use("Thrash")
+  single.use("Maul")
+  single.use("Swipe")
 
-  local multi = {}
+  local multi = Rotation()
+  multi.use("Mangle")
+  multi.use("Thrash")
+  multi.use("Maul")
+  multi.use("Swipe")
 
   return {
     talents = function() return talents end,
-    single = function() return single end,
-    multi = function() return multi end
+    single = function() return single.get() end,
+    multi = function() return multi.get() end
   }
-
 end
