@@ -10,8 +10,8 @@ function PhineRotations.Combo(operator, value)
   return { type = "combo", operator = operator, value = value }
 end
 
-function PhineRotations.Debuffed(name)
-  return { type = "debuff", name = name, active = true }
+function PhineRotations.Debuffed(name, buffer)
+  return { type = "debuff", name = name, active = true, buffer = buffer or 0 }
 end
 
 function PhineRotations.Not(condition)

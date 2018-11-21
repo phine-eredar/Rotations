@@ -10,6 +10,7 @@ local wow = {
   GetTime = GetTime,
   IsUsableSpell = IsUsableSpell,
   UnitBuff = UnitBuff,
+  UnitCastingInfo = UnitCastingInfo,
   UnitClass = UnitClass,
   UnitDebuff = UnitDebuff,
   UnitHealth = UnitHealth,

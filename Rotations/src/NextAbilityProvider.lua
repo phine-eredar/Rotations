@@ -40,9 +40,11 @@ function PhineRotations:NextAbilityProvider(wow)
   end
 
   local findDebuff = function(condition)
+    local now = wow.GetTime()
+    local buffer = condition.buffer or 0
     for i = 1, 40 do
-      local name = wow.UnitDebuff("target", i, "PLAYER")
-      if name == condition.name then return true end
+      local name, _, _, _, _, exp = wow.UnitDebuff("target", i, "PLAYER")
+      if name == condition.name and exp - now > buffer then return true end
     end
     return false
   end
@@ -69,7 +71,7 @@ function PhineRotations:NextAbilityProvider(wow)
     elseif condition.type == "bufftime" then
       local name, _, _, _, _, _, expirationTime = findBuff(condition.name)
       if expirationTime ~= nil then
-        met = name == condition.name and evaluateOperation(expirationTime - GetTime(), condition)
+        met = name == condition.name and evaluateOperation(expirationTime - wow.GetTime(), condition)
       end
     elseif condition.type == "charges" then
       local charges = 0
@@ -124,6 +126,12 @@ function PhineRotations:NextAbilityProvider(wow)
   end
 
   local evaluateRule = function(rule, talents)
+    local castingName, _, _, _, _, _, _, _, castingSpellId = wow.UnitCastingInfo("player")
+    local currentCharges = wow.GetSpellCharges(castingSpellId)
+    if castingName == rule.ability and currentCharges == 1 then
+      return
+    end
+
     local usable = wow.IsUsableSpell(rule.ability)
     if not usable then
       return
