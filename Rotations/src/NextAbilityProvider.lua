@@ -76,7 +76,7 @@ function PhineRotations:NextAbilityProvider(wow)
     elseif condition.type == "charges" then
       local charges = 0
       if (condition.buff ~= nil) then
-        local _, _, _, count = findBuff(condition.buff)
+        local _, _, count = findBuff(condition.buff)
         charges = count or 0
       else
         charges = wow.GetSpellCharges(condition.ability or ability)

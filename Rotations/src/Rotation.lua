@@ -6,6 +6,10 @@ function PhineRotations.Buffed(name)
   return { type = "buff", name = name, active = true }
 end
 
+function PhineRotations.Charges(operator, value, buff)
+  return { type = "charges", operator = operator, value = value, buff = buff }
+end
+
 function PhineRotations.Combo(operator, value)
   return { type = "combo", operator = operator, value = value }
 end
