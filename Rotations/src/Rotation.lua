@@ -18,6 +18,10 @@ function PhineRotations.Debuffed(name, buffer)
   return { type = "debuff", name = name, active = true, buffer = buffer or 0 }
 end
 
+function PhineRotations.Name(unit, name)
+  return { type = "name", unit = unit, name = name }
+end
+
 function PhineRotations.Not(condition)
   condition.active = false
   return condition
@@ -33,6 +37,10 @@ end
 
 function PhineRotations.Talented(name)
   return { type = "talent", name = name, active = true }
+end
+
+function PhineRotations.Totem(buffer, index)
+  return { type = "totem", buffer = buffer or 0, index = index or 1 }
 end
 
 function PhineRotations.Rotation(rotation)

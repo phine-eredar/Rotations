@@ -8,11 +8,14 @@ local wow = {
   GetSpellCooldown = GetSpellCooldown,
   GetTalentInfo = GetTalentInfo,
   GetTime = GetTime,
+  GetTotemInfo = GetTotemInfo,
   IsUsableSpell = IsUsableSpell,
+  print = print,
   UnitBuff = UnitBuff,
   UnitCastingInfo = UnitCastingInfo,
   UnitClass = UnitClass,
   UnitDebuff = UnitDebuff,
+  UnitFullName = UnitFullName,
   UnitHealth = UnitHealth,
   UnitPower = UnitPower
 }

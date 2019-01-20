@@ -16,7 +16,7 @@ function PhineRotations:NextAbilityProvider(wow)
     value = value or 0;
 
     if not condition.operator then
-      print("Missing condition operator: " .. condition.type)
+      wow.print("Missing condition operator: " .. condition.type)
     elseif condition.operator == "<" then
       met = value < condition.value
     elseif condition.operator == "<=" then
@@ -27,7 +27,7 @@ function PhineRotations:NextAbilityProvider(wow)
       met = value >= condition.value
     elseif condition.operator == ">" then
       met = value > condition.value
-    else print("Unsupported operator: " .. condition.operator)
+    else wow.print("Unsupported operator: " .. condition.operator)
     end
 
     return met
@@ -95,6 +95,8 @@ function PhineRotations:NextAbilityProvider(wow)
       local unit = condition.unit or "target"
       local health = wow.UnitHealth(unit)
       met = evaluateOperation(health, condition)
+    elseif condition.type == "name" then
+      met = wow.UnitFullName(condition.unit) == condition.name
     elseif condition.type == "or" then
       for i, child in ipairs(condition.children) do
         met = met or evaluateCondition(child, talents, ability)
@@ -105,7 +107,7 @@ function PhineRotations:NextAbilityProvider(wow)
     elseif condition.type == "runes" then
       local runes = 0
       for i = 1, 6 do
-        _, _, runeReady = wow.GetRuneCooldown(i)
+        local _, _, runeReady = wow.GetRuneCooldown(i)
         if runeReady then
           runes = runes + 1
         end
@@ -119,7 +121,10 @@ function PhineRotations:NextAbilityProvider(wow)
       else
         met = not selected
       end
-    else print("Unsupported condition type: " .. condition.type)
+    elseif condition.type == "totem" then
+      local _, _, start, duration = wow.GetTotemInfo(condition.index)
+      met = start + duration - wow.GetTime() < condition.buffer
+    else wow.print("Unsupported condition type: " .. condition.type)
     end
 
     return met
