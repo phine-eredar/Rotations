@@ -1,95 +1,35 @@
-function PhineRotations:BloodDeathKnight()
+local Buffed = PhineRotations.Buffed
+local Charges = PhineRotations.Charges
+local Debuffed = PhineRotations.Debuffed
+local Not = PhineRotations.Not
+local Rotation = PhineRotations.Rotation
 
+function PhineRotations:BloodDeathKnight()
   local talents = {}
 
-  local single = { {
-    conditions = { {
-      type = "charges",
-      buff = "Bone Shield",
-      operator = "==",
-      value = 0
-    } },
-    ability = "Marrowrend"
-  }, {
-    conditions = { {
-      type = "debuff",
-      name = "Blood Plague",
-      active = false
-    } },
-    ability = "Blood Boil"
-  }, {
-    conditions = { {
-      type = "health",
-      unit = "player",
-      operator = "<=",
-      value = UnitHealthMax("player") / 2
-    } },
-    ability = "Death Strike"
-  }, {
-    conditions = { {
-      type = "buff",
-      name = "Crimson Scourge",
-      active = true
-    } },
-    ability = "Death and Decay"
-  }, {
-    conditions = { {
-      type = "power",
-      powerType = 6,
-      operator = ">=",
-      value = 0.8 * UnitPowerMax("player", 6)
-    } },
-    ability = "Death Strike"
-  }, {
-    ability = "Blooddrinker"
-  }, {
-    conditions = { {
-      type = "charges",
-      buff = "Bone Shield",
-      operator = "<=",
-      value = 6
-    } },
-    ability = "Marrowrend"
-  }, {
-     conditions = { {
-       type = "runes",
-       operator = "<=",
-       value = 3
-     } },
-     ability = "Death and Decay"
-   }, {
-     conditions = { {
-       type = "or",
-       children = { {
-         type = "runes",
-         operator = ">=",
-         value = 3
-       }, {
-         type = "power",
-         powerType = 6,
-         operator = "<=",
-         value = 45
-       } }
-     } },
-     ability = "Heart Strike"
-   }, {
-     ability = "Consumption"
-   }, {
-     ability = "Blood Boil"
-   } }
+  local single = Rotation()
+  single.use("Marrowrend").when(Not(Buffed("Bone Shield")))
+  single.use("Death Strike")
+  single.use("Blooddrinker")
+  single.use("Blood Boil").when(Not(Debuffed("Blood Plague")))
+  single.use("Marrowrend").when(Charges("<=", 6, "Bone Shield"))
+  single.use("Heart Strike").when(Power(">=", 60, 6))
+  single.use("Blood Boil")
 
-  local multi = {}
+  local multi = Rotation()
+  multi.use("Marrowrend").when(Not(Buffed("Bone Shield")))
+  multi.use("Death Strike")
+  multi.use("Blooddrinker")
+  multi.use("Blood Boil").when(Not(Debuffed("Blood Plague")))
+  multi.use("Marrowrend").when(Charges("<=", 6, "Bone Shield"))
+  multi.use("Death and Decay")
+  multi.use("Heart Strike").when(Power(">=", 60, 6))
+  multi.use("Blood Boil")
 
   return {
-    talents = function()
-      return talents
-    end,
-    single = function()
-      return single
-    end,
-    multi = function()
-      return multi
-    end
+    talents = function() return talents end,
+    single = function() return single.get() end,
+    multi = function() return multi.get() end
   }
 
 end
