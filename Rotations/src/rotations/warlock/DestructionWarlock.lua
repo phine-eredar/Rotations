@@ -1,75 +1,22 @@
-function PhineRotations:DestructionWarlock()
+local Debuffed = PhineRotations.Debuffed
+local Not = PhineRotations.Not
+local Power = PhineRotations.Power
+local Rotation = PhineRotations.Rotation
 
+function PhineRotations:DestructionWarlock()
   local talents = {}
 
-  local single = { {
-    conditions = { {
-      type = "debuff",
-      name = "Immolate",
-      active = false
-    } },
-    ability = "Immolate"
-  }, {
-    ability = "Conflagrate"
-  }, {
-    ability = "Chaos Bolt"
-  }, {
-    ability = "Channel Demonfire"
-  }, {
-    ability = "Grimoire: Imp"
-  }, {
-    ability = "Soul Harvest"
-  }, {
-    conditions = { {
-      type = "charges",
-      operator = "==",
-      value = 3
-    } },
-    ability = "Dimensional Rift"
-  }, {
-    ability = "Incinerate"
-  } }
+  local single = Rotation();
+  single.use("Immolate").when(Not(Debuffed("Immolate")))
+  single.use("Chaos Bolt").when(Power(">=", 5, 7))
+  single.use("Conflagrate")
+  single.use("Incinerate")
 
-  local multi = { {
-    conditions = { {
-      type = "debuff",
-      name = "Immolate",
-      active = false
-    } },
-    ability = "Immolate"
-  }, {
-    ability = "Conflagrate"
-  }, {
-    ability = "Rain of Fire"
-  }, {
-    ability = "Chaos Bolt"
-  }, {
-    ability = "Channel Demonfire"
-  }, {
-    ability = "Grimoire: Imp"
-  }, {
-    ability = "Soul Harvest"
-  }, {
-    conditions = { {
-      type = "charges",
-      operator = "==",
-      value = 3
-    } },
-    ability = "Dimensional Rift"
-  }, {
-    ability = "Incinerate"
-  } }
+  local multi = Rotation()
 
   return {
-    talents = function()
-      return talents
-    end,
-    single = function()
-      return single
-    end,
-    multi = function()
-      return multi
-    end
-  }
-
+     talents = function() return talents end,
+     single = function() return single.get() end,
+     multi = function() return multi.get() end
+   }
 end
