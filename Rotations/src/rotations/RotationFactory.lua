@@ -1,5 +1,4 @@
 function PhineRotations:RotationFactory(wow)
-
   local CLASS_NAMES = {
     [1] = "Warrior",
     [2] = "Paladin",
@@ -16,23 +15,16 @@ function PhineRotations:RotationFactory(wow)
   }
 
   return {
-
       newRotation = function()
-
         local specId = wow.GetSpecialization()
+        if (not specId) then return end
         local _, specNameWithSpaces = wow.GetSpecializationInfo(specId)
         if (not specNameWithSpaces) then return end
         local specName = string.gsub(specNameWithSpaces, " ", "")
-
         local _, _, classId = wow.UnitClass("player")
         local className = CLASS_NAMES[classId]
-
         if (not PhineRotations[specName .. className]) then return end
-
         return PhineRotations[specName .. className]()
-
       end
-
   }
-
 end
