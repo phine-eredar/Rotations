@@ -96,3 +96,10 @@ multi.text = multi:CreateFontString(nil, "BACKGROUND", "PVPInfoTextFont")
 multi.text:SetTextHeight(32)
 multi.text:SetAllPoints()
 multi:SetPoint("CENTER", 150, -100)
+
+local function updater()
+  updateSingle(single)
+  updateMulti(multi)
+  C_Timer.After(0.5, updater)
+end
+updater()

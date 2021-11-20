@@ -14,6 +14,10 @@ function PhineRotations.Combo(operator, value)
   return { type = "combo", operator = operator, value = value }
 end
 
+function PhineRotations.Cooldown(name, operator, value)
+  return { type = "cooldown", name = name, operator = operator, value = value }
+end
+
 function PhineRotations.Debuffed(name, buffer)
   return { type = "debuff", name = name, active = true, buffer = buffer or 0 }
 end
@@ -70,3 +74,23 @@ function PhineRotations.Rotation(rotation)
 
   return this
 end
+
+PhineRotations.POWER = {
+  MANA = 0,
+  RAGE = 1,
+  FOCUS = 2,
+  ENERGY = 3,
+  COMBO_POINTS = 4,
+  RUNES = 5,
+  RUNIC_POWER = 6,
+  SOUL_SHARDS = 7,
+  LUNAR_POWER = 8,
+  HOLY_POWER = 9,
+  ALTERNATE_POWER = 10,
+  MAELSTROM = 11,
+  CHI = 12,
+  INSANITY = 13,
+  ARCANE_CHARGES = 16,
+  FURY = 17,
+  PAIN = 18
+}

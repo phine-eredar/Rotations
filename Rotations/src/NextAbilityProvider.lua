@@ -66,8 +66,12 @@ function PhineRotations:NextAbilityProvider(wow)
         met = not buffed
       end
     elseif condition.type == "cooldown" then
-      local _, duration = wow.GetSpellCooldown(condition.name)
-      met = evaluateOperation(duration, condition)
+      local start, duration = wow.GetSpellCooldown(condition.name)
+      local remaining = 0
+      if duration > 0 then
+        remaining = duration - wow.GetTime() + start
+      end
+      met = evaluateOperation(remaining, condition)
     elseif condition.type == "bufftime" then
       local name, _, _, _, _, _, expirationTime = findBuff(condition.name)
       if expirationTime ~= nil then
