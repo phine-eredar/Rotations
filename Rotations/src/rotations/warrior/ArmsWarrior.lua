@@ -19,6 +19,7 @@ function PhineRotations:ArmsWarrior()
   single.use("Mortal Strike").when(Charges("==", 2, "Overpower"))
   single.use("Skullsplitter").when(Power("<", 60, POWER.RAGE))
   single.use("Overpower")
+  single.use("Execute")
   single.use("Mortal Strike")
   single.use("Slam")
 
