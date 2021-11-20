@@ -44,7 +44,7 @@ function PhineRotations:NextAbilityProvider(wow)
     local buffer = condition.buffer or 0
     for i = 1, 40 do
       local name, _, _, _, _, exp = wow.UnitDebuff("target", i, "PLAYER")
-      if name == condition.name and exp - now > buffer then return true end
+      if name == condition.name and exp - now > buffer then return wow.UnitDebuff("target", i, "PLAYER") end
     end
     return false
   end
@@ -81,6 +81,9 @@ function PhineRotations:NextAbilityProvider(wow)
       local charges = 0
       if (condition.buff ~= nil) then
         local _, _, count = findBuff(condition.buff)
+        charges = count or 0
+      elseif (condition.debuff ~= nil) then
+        local _, _, count = findDebuff({ name = condition.debuff })
         charges = count or 0
       else
         charges = wow.GetSpellCharges(condition.ability or ability)
