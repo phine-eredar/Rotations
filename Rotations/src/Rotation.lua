@@ -22,6 +22,10 @@ function PhineRotations.Debuffed(name, buffer)
   return { type = "debuff", name = name, active = true, buffer = buffer or 0 }
 end
 
+function PhineRotations.Health(operator, value)
+  return { type = "health", unit = "target", operator = operator, value = value }
+end
+
 function PhineRotations.Name(unit, name)
   return { type = "name", unit = unit, name = name }
 end

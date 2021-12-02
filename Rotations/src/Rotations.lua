@@ -17,6 +17,7 @@ local wow = {
   UnitDebuff = UnitDebuff,
   UnitFullName = UnitFullName,
   UnitHealth = UnitHealth,
+  UnitHealthMax = UnitHealthMax,
   UnitPower = UnitPower
 }
 local rotationFactory = PhineRotations:RotationFactory(wow)
